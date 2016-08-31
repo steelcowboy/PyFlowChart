@@ -14,7 +14,9 @@ and under heavy development.
 - Checking validity of JSON files (currently freezes program)
 
 ## Todo
+- Better prereq handling
 - Drag and drop in the viewer
 - Preferences 
 - More dynamic interface
+- Add IDs to each course
 

@@ -8,7 +8,7 @@ and under heavy development.
 - Adding courses
 - Deleting courses
 - Opening, saving, etc
-- Editing
+- Editing courses
 
 ## Not yet implemented
 - ~~Editing courses~~ 9/2/2016

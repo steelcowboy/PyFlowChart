@@ -4,7 +4,6 @@ from gi.repository import Gtk, Gdk
 
 from coursetools.tile import courseTile, tileColumn
 from coursetools.manager import CourseManager
-from coursetools.changer import CourseChanger
 from appwin import AppWindow
 
 DRAG_ACTION = Gdk.DragAction.MOVE
@@ -19,7 +18,6 @@ class ViewerWindow(AppWindow):
         AppWindow.__init__(self, title="Flowchart Viewer")
 
         self.column_template = "year_{}_{}"
-        self.course_changer = CourseChanger()
 
         self.setup_window()
         self.connect('delete-event', self.quit)
@@ -73,11 +71,13 @@ class ViewerWindow(AppWindow):
     def open_file(self, widget):
         if not super(ViewerWindow, self).open_file(widget):
             return
-        
+    
+        self.load_courses()
+
+    def load_courses(self):
         for time, box in self.columns.items():
             for tile in box.get_children():
                 tile.destroy()
-
 
         for course in self.course_manager.courses:
             tile = courseTile(
@@ -86,7 +86,8 @@ class ViewerWindow(AppWindow):
                     course['credits'],
                     course['prereqs'], 
                     course['time'], 
-                    course['course_type']
+                    course['course_type'],
+                    course['course_id'] 
                     )
             tile.connect('button-press-event', self.tile_clicked)
 
@@ -98,7 +99,13 @@ class ViewerWindow(AppWindow):
             self.columns[time].pack_start(tile, True, True, 0)
 
     def add_entry(self, button):
-        entry = self.course_changer.run_dialog(self)
+        new_id = self.course_manager.last_course_id + 1
+        self.course_changer.course_id = new_id
+
+        entry = self.create_add_edit_dialog()
+        if not entry:
+            return False
+
         self.course_manager.add_entry(entry)
 
         tile = courseTile(
@@ -107,7 +114,8 @@ class ViewerWindow(AppWindow):
                 entry.credits,
                 entry.prereqs, 
                 entry.time, 
-                entry.course_type
+                entry.course_type,
+                new_id
                 )
         tile.connect('button-press-event', self.tile_clicked)
 
@@ -119,8 +127,12 @@ class ViewerWindow(AppWindow):
         self.columns[time].pack_start(tile, True, True, 0)
 
     def edit_entry(self, button):
-        entry = self.course_changer.run_dialog(self, self.selected_tile.export())
-        self.course_manager.edit_entry(entry)
+        entry = self.create_add_edit_dialog(self.selected_tile.export())
+        if not entry:            
+            return False
+
+        self.course_manager.edit_entry(chosen_course=entry)
+        self.load_courses()
 
     def delete_entry(self, button):
         self.course_manager.delete_entry(self.selected_tile)

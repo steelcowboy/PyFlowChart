@@ -4,13 +4,11 @@ from gi.repository import Gtk
 
 from appwin import AppWindow
 from coursetools.course import Course
-from coursetools.changer import CourseChanger 
 
 class BuilderWindow(AppWindow):
     def __init__(self):
         AppWindow.__init__(self, title="Flowchart Builder")
 
-        self.course_changer = CourseChanger()
         self.setup_window()
 
     def setup_window(self):
@@ -34,7 +32,9 @@ class BuilderWindow(AppWindow):
         grid.attach(scroll_window, 0, 1, 1, 1)
         
 
+        self.course_changer.init_objects(self.addbuilder)
         modifygrid = self.course_changer.grid
+
         add_button = Gtk.Button.new_with_label("Add")
         add_button.connect('clicked', self.add_entry)
         add_button.set_margin_top(5)
@@ -66,7 +66,6 @@ class BuilderWindow(AppWindow):
         self.connect('delete-event', self.quit)
 
     def treeview_clicked(self, widget, event):
-## Leave here 
         if event.button == 3:
             self.editmenu.popup(None, None, None, None, event.button, event.time)
 
@@ -77,8 +76,8 @@ class BuilderWindow(AppWindow):
         index = path.get_indices()[0]
         course = self.course_manager.courses[index]
 
-        entry = self.course_changer.run_dialog(self, course)
-        self.course_manager.edit_entry(entry)
+        entry = self.create_add_edit_dialog(course)
+        self.course_manager.edit_entry(entry, course_selection)
 
     def delete_entry(self, button): 
         """Delete existing entry"""
@@ -86,8 +85,13 @@ class BuilderWindow(AppWindow):
 
     def add_entry(self, button):
         """Add info to treeview"""        
-        self.course_changer.get_fields()
+        new_id = self.course_manager.last_course_id
+        self.course_changer.course_id = new_id
+
+        self.course_changer.init_objects(self.addbuilder)
         input_course = self.course_changer.get_course()
+        input_course.course_id = new_id
+
         self.course_manager.add_entry(input_course)
         self.course_changer.clean_form()
 

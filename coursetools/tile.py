@@ -1,3 +1,5 @@
+# Need to figure out sizing tiles
+
 from .course import Course
 import gi
 
@@ -6,10 +8,10 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
 class courseTile(Gtk.EventBox, Course):
-    def __init__(self, title, catalog, units, prereqs, time, course_type):
+    def __init__(self, title, catalog, units, prereqs, time, course_type, course_id):
         Gtk.EventBox.__init__(self)
         Course.__init__(
-                self, title, catalog, units, prereqs, time, course_type)
+                self, title, catalog, units, prereqs, time, course_type, course_id)
 
         self.name = catalog
 
@@ -28,7 +30,7 @@ class courseTile(Gtk.EventBox, Course):
         self.title_text = Gtk.Label(self.title)
         self.catalog_text = Gtk.Label(self.catalog)
         self.credits_text = Gtk.Label("(" + str(self.credits) + ")")
-        self.prereqs_text = Gtk.Label("(" + self.prereqs + ")")
+        self.prereqs_text = Gtk.Label("(" + ', '.join(self.prereqs) + ")")
 
         self.title_text.set_justify(Gtk.Justification.CENTER)
         self.catalog_text.set_justify(Gtk.Justification.CENTER)

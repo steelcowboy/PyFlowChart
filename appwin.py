@@ -1,8 +1,10 @@
 import gi, json
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+from copy import deepcopy
 
 from coursetools.manager import CourseManager
+from coursetools.changer import CourseChanger
 
 class AppWindow(Gtk.Window):
     def __init__(self, title): 
@@ -22,12 +24,53 @@ class AppWindow(Gtk.Window):
                 }
 
         self.course_manager = CourseManager()
+        self.course_changer = CourseChanger()
         
     def create_confirm_dialog(self):
         return Gtk.MessageDialog(self, 0, 
                 Gtk.MessageType.WARNING, 
                 Gtk.ButtonsType.OK_CANCEL, 
                 "You have unsaved changes! Are you sure you wish to proceed?")
+
+    def create_add_edit_dialog(self, course=None):
+        builder = Gtk.Builder.new_from_file('./interface/glade/modify_interface.glade')
+        self.course_changer.init_objects(builder)
+    
+        if course:
+            function = "Edit"
+        else:
+            function = "Add"
+
+        new_course = None
+        modify_dialog = Gtk.Dialog(function, self, 0)
+        box = modify_dialog.get_content_area()
+        grid = self.course_changer.grid 
+        box.add(grid)
+        
+        prereq_box = self.course_changer.prereq_box  
+        add_button_box = self.course_changer.add_button_box 
+
+        if self.course_changer.add_year:
+            builder.get_object('year').set_active(
+                    int(self.course_changer.add_year)-1)
+            builder.get_object('quarter').set_active(
+                    self.course_changer.quarter_map[self.course_changer.add_quarter])
+
+        if course:
+            modify_dialog.add_button('_Edit', Gtk.ResponseType.OK)
+            self.course_changer.load_entry(course)
+
+        else:
+            modify_dialog.add_button('_Add', Gtk.ResponseType.OK)
+
+        response = modify_dialog.run()
+
+        if response == Gtk.ResponseType.OK:
+            new_course = self.course_changer.get_course()
+
+        modify_dialog.destroy()
+        if new_course:
+            return new_course
 
 
     def open_file(self, widget):

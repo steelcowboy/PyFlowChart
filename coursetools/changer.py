@@ -4,8 +4,11 @@ from gi.repository import Gtk
 from .course import Course
 
 class CourseChanger():
+    """A class for dealing with an add/edit interface."""
     def __init__(self):
-
+        """Initialize a CourseChanger object with a mapping of 
+        both quarters, types, and setting default values to none
+        """
         self.quarter_map = {
                 'Fall'   : 0,
                 'Winter' : 1,
@@ -26,6 +29,7 @@ class CourseChanger():
         self.tile = None 
 
     def init_objects(self, builder):
+        """Retreive relevant objects from a Gtk.Builder()."""
         self.grid = builder.get_object('modifygrid')
         self.builder_objects = builder.get_objects()
 
@@ -45,6 +49,7 @@ class CourseChanger():
         self.course_type = builder.get_object("type")
     
     def add_prereq(self, button=None, prereq=None):
+        """Create a new prereq entry field."""
         new_entry = Gtk.Entry() 
         new_button = Gtk.Button.new_from_icon_name('list-add', Gtk.IconSize.MENU)
         new_button.connect('clicked', self.add_prereq)
@@ -57,6 +62,7 @@ class CourseChanger():
         self.grid.show_all()
 
     def clean_form(self):
+        """Reset the form."""
         for field in self.builder_objects:
             if isinstance(field, gi.repository.Gtk.Entry):
                 field.set_text('')
@@ -64,10 +70,15 @@ class CourseChanger():
                 field.set_value(field.get_range()[0])
             elif isinstance(field, gi.repository.Gtk.ComboBoxText):
                 field.set_active(0)
-        for entry in self.prereq_box.get_children():
-            entry.set_text('')
+        
+        for entry in self.prereq_box.get_children()[1:]:
+            entry.destroy()
+        for button in self.add_button_box.get_children()[1:]:
+            button.destroy()
+
 
     def load_entry(self, course):
+        """Load course information into the interface."""
         self.course_id = course['course_id']
 
         self.title.set_text(course['title'])
@@ -93,6 +104,7 @@ class CourseChanger():
         self.course_type.set_active(self.type_map[course['course_type']])
 
     def get_course(self):
+        """Retreive course information from the interface."""
         prereqs = [] 
         for entry in self.prereq_box.get_children():
             prereqs.append(entry.get_text())

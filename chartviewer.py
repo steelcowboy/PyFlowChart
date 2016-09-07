@@ -6,15 +6,13 @@ from coursetools.tile import courseTile, tileColumn
 from coursetools.manager import CourseManager
 from appwin import AppWindow
 
-DRAG_ACTION = Gdk.DragAction.MOVE
-provider = Gtk.CssProvider()
-provider.load_from_path('./interface/chart_tile.css')
-Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
-        provider,  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-
 
 class ViewerWindow(AppWindow):
+    """A class to create an interface for viewing and modifying a flowchart.."""
     def __init__(self):
+        """Constructor.
+
+        No arguments accepted. Initializes as an AppWindow and sets up interface."""
         AppWindow.__init__(self, title="Flowchart Viewer")
 
         self.column_template = "year_{}_{}"
@@ -138,7 +136,14 @@ class ViewerWindow(AppWindow):
         self.course_manager.delete_entry(self.selected_tile)
         self.selected_tile.destroy()
 
-window = ViewerWindow()
-window.show_all()
-window.maximize()
+if __name__ == "__main__":
+    DRAG_ACTION = Gdk.DragAction.MOVE
+    provider = Gtk.CssProvider()
+    provider.load_from_path('./interface/chart_tile.css')
+    Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
+            provider,  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+    window = ViewerWindow()
+    window.show_all()
+    window.maximize()
 Gtk.main()

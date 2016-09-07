@@ -2,7 +2,20 @@ import json
 from .course import Course 
 
 class CourseManager():
+    """A class for managing courses.
+    
+    Attributes:
+        courses (list): A list of all course objects being handled by the session.
+        saved (bool): Whether or not the course information is consistent with
+                      the file on the disk.
+        last_course_id (int): The greatest course id in use by a Course object.
+    """
     def __init__(self, store=None):
+        """Initialize a CourseManager.
+
+        Arguments:
+            store (Gtk.ListStore): a store to append data into.
+        """
         self.store = store 
         
         self.courses = []
@@ -10,6 +23,12 @@ class CourseManager():
         self.last_course_id = 0
 
     def load_file(self, filename):
+        """Load a file into the course manager.
+
+        Arguments:
+            filename (str): The path to the JSON file 
+                            containing the course information.
+        """
         with open(filename, 'r') as jsonfile:
             try:
                 courses = json.loads(jsonfile.read())
@@ -51,8 +70,14 @@ class CourseManager():
 
 
     def edit_entry(self, chosen_course, selection=None):
-        """Edit existing entry,
-           Only implemented for the chartviewer so far"""
+        """Edit existing entry.
+        
+        Arguments:
+            chosen_course (Course): The course to edit.
+            selection (Gtk.TreeSelection): An optional Gtk TreeSelection representing
+                the current selection in the treeview that is to be edited.
+                                           
+        """
         if selection:
             model, treeiter = selection.get_selected()
             self.store[treeiter] = [
@@ -79,15 +104,19 @@ class CourseManager():
                 return chosen_course.course_id   
 
 
-    def delete_entry(self, chosen_course=None, tree=None): 
-        """Delete existing entry"""
-        if tree:
-            course_selection = tree.get_selection()
+    def delete_entry(self, chosen_course=None, selection=None): 
+        """Delete existing entry.
+        
+        Arguments (optional):
+            chosen_course (Course): The course to delete.
+            selection (Gtk.TreeSelection): The selection to delete. 
+        """
+        if selection:
             # I think the documentation for get_seleceded_rows is 
             # incorrect because index 0 is a ListStore...
-            path = course_selection.get_selected_rows()[1][0]
+            path = selection.get_selected_rows()[1][0]
             index = path.get_indices()[0]
-            model, treeiter = course_selection.get_selected()
+            model, treeiter = selection.get_selected()
 
             course = self.courses[index]
 
@@ -100,6 +129,7 @@ class CourseManager():
                     del self.courses[index]
 
     def add_entry(self, course):
+        """Add a course to the CourseManager's list."""
         self.saved = False
         if not course.course_id:
             course.course_id = self.last_course_id
@@ -121,6 +151,7 @@ class CourseManager():
         self.last_course_id = self.last_course_id + 1
 
     def save(self, filename):
+        """Save all courses to the given filename."""
         with open(filename, 'w') as flowfile:
             courses = {
                     'courses' : self.courses

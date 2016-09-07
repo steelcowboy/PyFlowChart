@@ -5,9 +5,10 @@ import gi
 
 gi.require_version('Gtk', '3.0')
 
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk
 
 class courseTile(Gtk.EventBox, Course):
+    """An EventBox that contains all data and menthods of a Course."""
     def __init__(self, title, catalog, units, prereqs, time, course_type, course_id):
         Gtk.EventBox.__init__(self)
         Course.__init__(
@@ -47,10 +48,12 @@ class courseTile(Gtk.EventBox, Course):
         self.show_all()
    
     def on_drag_data_get(self, widget, drag_context, data, info, time):
+        """Not yet implemented."""
         text = self.title 
         data.set_text(text, -1)
 
 class tileColumn(Gtk.EventBox):
+    """An EventBox that contains courseTiles and is associated with a year and quarter."""
     def __init__(self, year, quarter):
         Gtk.EventBox.__init__(self)
 

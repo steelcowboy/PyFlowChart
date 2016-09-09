@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
@@ -7,7 +9,7 @@ class about_dialog(Gtk.AboutDialog):
         Gtk.AboutDialog.__init__(self, parent=parent)
 
         self.set_program_name('PyFlowChart')
-        self.set_version('0.3')
+        self.set_version('0.4')
         self.set_comments('A program to create interactive cirriculum flowcharts')
 
         self.set_logo_icon_name('applications-accessories')

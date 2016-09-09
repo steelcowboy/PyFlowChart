@@ -1,4 +1,6 @@
 __pycache__
+program_information.py
+interface/viewergrid.py
 docs/*
 interface/glade/*\~
 *.json*

@@ -85,6 +85,7 @@ class ViewerWindow(AppWindow):
                     course['prereqs'], 
                     course['time'], 
                     course['course_type'],
+                    course['ge_type'],
                     course['course_id'] 
                     )
             tile.connect('button-press-event', self.tile_clicked)
@@ -113,6 +114,7 @@ class ViewerWindow(AppWindow):
                 entry.prereqs, 
                 entry.time, 
                 entry.course_type,
+                entry.ge_type, 
                 new_id
                 )
         tile.connect('button-press-event', self.tile_clicked)

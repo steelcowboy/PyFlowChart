@@ -154,6 +154,7 @@ james.r.heald@gmail.com</property>
           <item id="concentration" translatable="yes">Concentration</item>
           <item id="ge" translatable="yes">General Ed</item>
           <item id="freee" translatable="yes">Free Elective</item>
+          <item id="minor" translatable="yes">Minor</item>
         </items>
       </object>
       <packing>
@@ -296,6 +297,53 @@ james.r.heald@gmail.com</property>
       <packing>
         <property name="left_attach">1</property>
         <property name="top_attach">4</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="ge_type_label">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">GE Type:
+(optional)</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">7</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBoxText" id="ge_type">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_top">5</property>
+        <property name="margin_bottom">5</property>
+        <items>
+          <item translatable="yes">None</item>
+          <item translatable="yes">A1</item>
+          <item translatable="yes">A2</item>
+          <item translatable="yes">A3</item>
+          <item translatable="yes">B1</item>
+          <item translatable="yes">B2</item>
+          <item translatable="yes">B3</item>
+          <item translatable="yes">B4</item>
+          <item translatable="yes">B5</item>
+          <item translatable="yes">B6</item>
+          <item translatable="yes">C1</item>
+          <item translatable="yes">C2</item>
+          <item translatable="yes">C3</item>
+          <item translatable="yes">C4</item>
+          <item translatable="yes">C5</item>
+          <item translatable="yes">D1</item>
+          <item translatable="yes">D2</item>
+          <item translatable="yes">D3</item>
+          <item translatable="yes">D4/E</item>
+          <item translatable="yes">D5</item>
+          <item translatable="yes">F</item>
+        </items>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">7</property>
       </packing>
     </child>
   </object>

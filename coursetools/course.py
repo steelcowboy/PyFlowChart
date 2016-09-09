@@ -13,7 +13,7 @@ class Course():
 
     """ 
     
-    def __init__(self, title, catalog, credits, prereqs, time, course_type, course_id=None):
+    def __init__(self, title, catalog, credits, prereqs, time, course_type, ge_type=None, course_id=None):
         
         self.title = title
         self.catalog = catalog
@@ -21,6 +21,7 @@ class Course():
         self.prereqs = prereqs
         self.time = time
         self.course_type = course_type
+        self.ge_type = ge_type 
         self.course_id = course_id 
 
     def __str__(self):
@@ -41,7 +42,8 @@ class Course():
                 'credits'     : self.credits,
                 'prereqs'     : self.prereqs, 
                 'time'        : self.time,
-                'course_type' : self.course_type 
+                'course_type' : self.course_type,
+                'ge_type'     : self.ge_type
                 }
         return export_dict
     

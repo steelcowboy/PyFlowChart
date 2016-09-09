@@ -40,7 +40,7 @@ class CourseManager():
             course_ids = []
 
             for file_course in file_courses['courses']: 
-                if course_id not in file_course:
+                if 'course_id' not in file_course:
                     file_course['course_id'] = course_id
                     course_id = course_id + 1
                     course_ids.append(course_id)
@@ -51,6 +51,9 @@ class CourseManager():
                 if isinstance(file_course['prereqs'], str):
                     file_course['prereqs'] = [x.strip() for x in 
                         file_course['prereqs'].split(',')]
+
+                if 'ge_type' not in file_course:
+                    file_course['ge_type'] = None
 
                 self.courses.append(file_course)
                 if self.store:
@@ -98,7 +101,8 @@ class CourseManager():
                 course['credits']     = chosen_course.credits
                 course['prereqs']     = chosen_course.prereqs
                 course['time']        = chosen_course.time
-                course['course_type'] = chosen_course.course_type 
+                course['course_type'] = chosen_course.course_type
+                course['ge_type']     = chosen_course.ge_type 
                 
                 self.saved = False
                 return chosen_course.course_id   

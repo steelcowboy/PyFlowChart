@@ -44,7 +44,7 @@ class BuilderWindow(AppWindow):
         add_button = Gtk.Button.new_with_label("Add")
         add_button.connect('clicked', self.add_entry)
         add_button.set_margin_top(5)
-        modifygrid.attach(add_button, 1, 7, 2, 1)
+        modifygrid.attach(add_button, 1, 8, 2, 1)
 
         grid.attach(modifygrid, 1, 1, 1, 1)
         
@@ -93,7 +93,7 @@ class BuilderWindow(AppWindow):
 
     def add_entry(self, button):
         """Add info to treeview, and update the course manager and changer."""        
-        new_id = self.course_manager.last_course_id
+        new_id = self.course_manager.last_course_id + 1
         self.add_changer.course_id = new_id
 
         #course_changer.init_objects(self.addbuilder)

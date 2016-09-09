@@ -15,6 +15,8 @@ and under heavy development.
 - ~~About dialog~~ 9/6/2016
 - Check validity of JSON files (currently freezes program)
 - Better prereq handling
+- Create degree progress interface
+- Show remaining GEs
 - Drag and drop in the viewer
 - Preferences 
 - More dynamic interface

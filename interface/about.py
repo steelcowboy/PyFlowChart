@@ -9,12 +9,12 @@ class about_dialog(Gtk.AboutDialog):
         Gtk.AboutDialog.__init__(self, parent=parent)
 
         self.set_program_name('PyFlowChart')
-        self.set_version('0.5')
+        self.set_version('0.6')
         self.set_comments('A program to create interactive cirriculum flowcharts')
 
         self.set_logo_icon_name('applications-accessories')
 
-        self.set_copyright('© 2016 Jim Heald')
+        self.set_copyright('© 20.6 Jim Heald')
         self.set_license_type(Gtk.License.BSD)
 
         self.set_authors('Jim Heald https://github.com/steelcowboy')

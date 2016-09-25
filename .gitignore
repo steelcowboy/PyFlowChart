@@ -4,3 +4,5 @@ interface/viewergrid.py
 docs/*
 interface/glade/*\~
 *.json*
+update.sh
+.version

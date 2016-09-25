@@ -1,3 +1,6 @@
+# 0.6 ()
+-
+
 # 0.5 (9-25-2016)
 - Fixed bug when trying to open files other than JSON files
 

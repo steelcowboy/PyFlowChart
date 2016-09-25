@@ -1,4 +1,4 @@
-# PyFlowChart v0.4
+# PyFlowChart v0.5
 
 PyFlowChart is a project to help students plan out courses 
 for their college career. It is currently beta quality 
@@ -13,7 +13,7 @@ and under heavy development.
 
 ## Todo
 - ~~About dialog~~ 9/6/2016
-- Check validity of JSON files (currently freezes program)
+- ~~Check validity of JSON files (currently freezes program)~~ 9/25/2016
 - Better prereq handling
 - Create degree progress interface
 - Show remaining GEs

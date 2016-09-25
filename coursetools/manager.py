@@ -28,12 +28,15 @@ class CourseManager():
         Arguments:
             filename (str): The path to the JSON file 
                             containing the course information.
+
+        Returns:
+            1 if successful, 0 otherwise.
         """
         with open(filename, 'r') as jsonfile:
             try:
                 courses = json.loads(jsonfile.read())
             except json.decoder.JSONDecodeError:
-                return 1
+                return 0
 
             file_courses = courses
             course_id = 0
@@ -69,7 +72,7 @@ class CourseManager():
                     ])
             
             self.last_course_id = max(course_ids)
-            return 0
+            return 1
 
 
     def edit_entry(self, chosen_course, selection=None):

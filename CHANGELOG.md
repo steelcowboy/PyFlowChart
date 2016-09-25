@@ -1,3 +1,6 @@
+# 0.5 (9-25-2016)
+- Fixed bug when trying to open files other than JSON files
+
 # 0.4 (9-8-2016) 
 - Set better sizing for tile widgets
 - Added a new GE type field

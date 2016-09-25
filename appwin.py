@@ -124,29 +124,36 @@ class AppWindow(Gtk.Window):
             if confirm_response == Gtk.ResponseType.CANCEL: 
                 return 0 
 
-        dialog = Gtk.FileChooserDialog("Please choose a file", self,
-            Gtk.FileChooserAction.OPEN,
-            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-             Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+        while True:
+            open_dialog = Gtk.FileChooserDialog("Please choose a file", self,
+                Gtk.FileChooserAction.OPEN,
+                (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                 Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 
-        response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            self.filename = dialog.get_filename()
-            self.course_manager.saved = True 
-            
-            self.course_manager.courses = []
-            if self.course_manager.store:
-                self.course_manager.store.clear()
+            response = open_dialog.run()
 
-            while self.course_manager.load_file(self.filename):
-                fail_dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
-                Gtk.ButtonsType.OK, "Not a valid JSON file, please try again")
-                fail_dialog.run()
-                pass
-                fail_dialog.destroy()
+            if response == Gtk.ResponseType.OK:
+                self.filename = open_dialog.get_filename()
+                self.course_manager.saved = True 
+                
+                self.course_manager.courses = []
+                if self.course_manager.store:
+                    self.course_manager.store.clear()
 
-        dialog.destroy()
-        return 1
+                if not self.course_manager.load_file(self.filename):
+                    fail_dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
+                    Gtk.ButtonsType.OK, "Not a valid JSON file, please try again")
+                    fail_dialog.run()
+                    pass
+                    fail_dialog.destroy()
+                    open_dialog.destroy()
+                else:
+                    open_dialog.destroy()
+                    return 1
+            else:
+                open_dialog.destroy()
+                return 0
+
 
     def save_entry(self, window):
         """Creates a save dialog (or save as if no filename)."""

@@ -1,4 +1,4 @@
-import gi, json
+import gi, json, os
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from copy import deepcopy
@@ -22,6 +22,10 @@ class AppWindow(Gtk.Window):
         course_changer (CourseChanger): the CourseChanger instance associated with the session.
     """
     def __init__(self, title): 
+        self.chart_dir = os.path.expanduser("~/.config/PyFlowChart/charts")
+        if not os.path.exists(self.chart_dir):
+            os.makedirs(self.chart_dir)
+    
         Gtk.Window.__init__(self, title=title)
         
         self.filename = None
@@ -130,6 +134,8 @@ class AppWindow(Gtk.Window):
                 (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                  Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 
+            open_dialog.set_current_folder(self.chart_dir)
+
             response = open_dialog.run()
 
             if response == Gtk.ResponseType.OK:
@@ -165,12 +171,15 @@ class AppWindow(Gtk.Window):
     def save_as(self, window=None):
         """Save file under another name."""
         dialog = self.create_save_as_dialog()
+        dialog.set_current_folder(self.chart_dir)
+
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             self.filename = dialog.get_filename() + ".json"
             dialog.destroy()
- 
-        self.course_manager.save(self.filename)
+            self.course_manager.save(self.filename)
+        
+        dialog.destroy()
 
     def about(self, button=None):
         self.about_dialog.present()

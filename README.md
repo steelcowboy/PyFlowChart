@@ -12,10 +12,10 @@ and under heavy development.
 - Ability to keep track of what GE requirements each course fulfills
 
 ## Todo
-- ~~Add IDs to each course~~ 9/2/20.6
-- ~~About dialog~~ 9/6/20.6
-- ~~Better widget sizing~~ 9/8/20.6
-- ~~Check validity of JSON files (currently freezes program)~~ 9/25/20.6
+- ~~Add IDs to each course~~ 9/2/2016
+- ~~About dialog~~ 9/6/2016
+- ~~Better widget sizing~~ 9/8/2016
+- ~~Check validity of JSON files (currently freezes program)~~ 9/25/2016
 - Better prereq handling
 - Create degree progress interface
 - Show remaining GEs

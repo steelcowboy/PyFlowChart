@@ -315,6 +315,28 @@
       </packing>
     </child>
   </object>
+  <object class="GtkMenu" id="edit_menu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkImageMenuItem" id="edit_entry1">
+        <property name="label">gtk-edit</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="use_stock">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="delete_entry1">
+        <property name="label">gtk-delete</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="use_stock">True</property>
+      </object>
+    </child>
+  </object>
   <object class="GtkMenuBar" id="menubar">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -404,7 +426,7 @@
         <property name="label" translatable="yes">Edit</property>
         <property name="use_underline">True</property>
         <child type="submenu">
-          <object class="GtkMenu" id="edit_menu">
+          <object class="GtkMenu" id="edit_menu_toolbar">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -425,6 +447,23 @@
                 <property name="use_underline">True</property>
                 <property name="use_stock">True</property>
                 <signal name="activate" handler="onDeletePress" swapped="no"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorMenuItem">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">1</property>
+                <property name="margin_bottom">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkImageMenuItem" id="preferences">
+                <property name="label">gtk-preferences</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
               </object>
             </child>
           </object>

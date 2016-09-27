@@ -14,7 +14,7 @@ class about_dialog(Gtk.AboutDialog):
 
         self.set_logo_icon_name('applications-accessories')
 
-        self.set_copyright('© 20.6 Jim Heald')
+        self.set_copyright('© 2016 Jim Heald')
         self.set_license_type(Gtk.License.BSD)
 
         self.set_authors('Jim Heald https://github.com/steelcowboy')

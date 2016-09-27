@@ -139,6 +139,11 @@ class ViewerWindow(AppWindow):
         self.selected_tile.destroy()
 
 if __name__ == "__main__":
+    provider = Gtk.CssProvider()
+    provider.load_from_path('./interface/chart_tile.css')
+    Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
+            provider,  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
     window = ViewerWindow()

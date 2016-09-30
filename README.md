@@ -16,6 +16,7 @@ and under heavy development.
 - ~~About dialog~~ 9/6/2016
 - ~~Better widget sizing~~ 9/8/2016
 - ~~Check validity of JSON files (currently freezes program)~~ 9/25/2016
+- Highlight selected course
 - Better prereq handling
 - Create degree progress interface
 - Show remaining GEs

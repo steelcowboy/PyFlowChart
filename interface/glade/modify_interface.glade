@@ -6,7 +6,7 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkImageMenuItem" id="add_entry">
+      <object class="GtkImageMenuItem" id="add_entry_right">
         <property name="label">gtk-add</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -319,21 +319,23 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkImageMenuItem" id="edit_entry1">
+      <object class="GtkImageMenuItem" id="edit_entry_right">
         <property name="label">gtk-edit</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
+        <signal name="activate" handler="onEditPress" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="delete_entry1">
+      <object class="GtkImageMenuItem" id="delete_entry_right">
         <property name="label">gtk-delete</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
+        <signal name="activate" handler="onDeletePress" swapped="no"/>
       </object>
     </child>
   </object>
@@ -429,6 +431,16 @@
           <object class="GtkMenu" id="edit_menu_toolbar">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <child>
+              <object class="GtkImageMenuItem" id="add_entry">
+                <property name="label">gtk-add</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+                <signal name="activate" handler="onAddPress" swapped="no"/>
+              </object>
+            </child>
             <child>
               <object class="GtkImageMenuItem" id="edit_entry">
                 <property name="label">gtk-edit</property>

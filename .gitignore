@@ -1,8 +1,21 @@
 __pycache__
+
+# These two may be implemented in the future
 program_information.py
 interface/viewergrid.py
+
+# I will have a documentation system at some point...
 docs/*
+
+# Don't include autosave or whatever these are
 interface/glade/*\~
-*.json*
+
+# The update script is only for me
 update.sh
 .version
+
+# Playing with parsing PDFs
+*.pdf
+*.html
+*.xml
+

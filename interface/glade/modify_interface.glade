@@ -343,7 +343,7 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkMenuItem">
+      <object class="GtkMenuItem" id="file">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">_File</property>
@@ -422,7 +422,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem">
+      <object class="GtkMenuItem" id="edit">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Edit</property>
@@ -476,6 +476,7 @@
                 <property name="can_focus">False</property>
                 <property name="use_underline">True</property>
                 <property name="use_stock">True</property>
+                <signal name="activate" handler="onPrefPress" swapped="no"/>
               </object>
             </child>
           </object>
@@ -483,7 +484,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem">
+      <object class="GtkMenuItem" id="help">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Help</property>

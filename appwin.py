@@ -4,6 +4,7 @@ from gi.repository import Gtk
 from copy import deepcopy
 
 from interface.about import about_dialog
+from interface.preferences import preferences_dialog 
 from coursetools.manager import CourseManager
 from coursetools.changer import CourseChanger
 
@@ -25,6 +26,7 @@ class AppWindow(Gtk.Window):
         self.chart_dir = os.path.expanduser("~/.config/PyFlowChart/charts")
         if not os.path.exists(self.chart_dir):
             os.makedirs(self.chart_dir)
+        self.config_file = os.path.expanduser("~/.config/PyFlowChart/config")
     
         Gtk.Window.__init__(self, title=title)
         
@@ -38,13 +40,18 @@ class AppWindow(Gtk.Window):
                 'onSavePress'    : self.save_entry,
                 'onSaveAsPress'  : self.save_as,
                 'onQuitPress'    : self.quit, 
-                'onAboutPress'   : self.about 
+                'onAboutPress'   : self.about,
+                'onPrefPress'    : self.preferences
                 }
 
         self.course_manager = CourseManager()
         self.course_changer = CourseChanger()
         self.about_dialog = about_dialog(self)
+        # Preferences dialog should work like this, to be implemented
+        #self.preferences_dialog = preferences_dialog(self)
         
+        self.parse_config()
+
     def create_confirm_dialog(self):
         """Returns a dialog object to prompt the user if the flowchart is unsaved."""
         return Gtk.MessageDialog(self, 0, 
@@ -108,6 +115,14 @@ class AppWindow(Gtk.Window):
         if new_course:
             return new_course
 
+    def parse_config(self):
+        with open(self.config_file, 'r') as jsonfile:
+            try:
+                config = json.loads(jsonfile.read())
+            except json.decoder.JSONDecodeError:
+                return 0
+
+            self.course_manager.ge_map = config["GEs"]
 
     def open_file(self, widget):
         """Runs an open file dialog, then instructs the CourseManager 
@@ -183,6 +198,39 @@ class AppWindow(Gtk.Window):
 
     def about(self, button=None):
         self.about_dialog.present()
+
+    def preferences(self, button=None):
+        for course in self.course_manager.courses:
+            if course['ge_type'] != None and course['catalog'] not in self.course_manager.ge_map:
+                self.course_manager.ge_map[course['ge_type']] = course['catalog']
+
+        dialog = preferences_dialog(self, self.course_manager.ge_map)
+
+        response = dialog.run()
+
+        if response == Gtk.ResponseType.OK:
+            for x in dialog.entry_positions:
+                entry = dialog.ges.get_child_at(1, x)
+                if entry.get_text() != '':
+                    text = entry.get_text()
+                else:
+                    continue
+
+                label = dialog.ges.get_child_at(0, x).get_label()
+                
+                self.course_manager.ge_map[label] = text
+            self.save_preferences()
+
+        dialog.destroy()
+
+    def save_preferences(self):
+        """Save preferences."""
+        with open(self.config_file, 'w') as conf:
+            config = {
+                    'userInfo' : {},
+                    'GEs'      : self.course_manager.ge_map
+                    }
+            conf.write(json.dumps(config, indent=4))
 
     def quit(self, widget, thing=None):
         """Checks if the file is saved before closing."""

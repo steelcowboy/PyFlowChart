@@ -19,6 +19,7 @@ class CourseManager():
         self.store = store 
         
         self.courses = []
+        self.ge_map = {}
         self.saved = True
         self.last_course_id = 0
 

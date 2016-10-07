@@ -1,8 +1,9 @@
-# 0.6 ()
+# 0.6 (10-6-2016)
 - PyFlowChart now makes a config directory, which stores
   configs and charts
 - Fixed bug where pressing cancel when saving for the
   first time still attempts to save
+- GE list, writing in credit, and saving user year now implemented
 
 # 0.5 (9-25-2016)
 - Fixed bug when trying to open files other than JSON files

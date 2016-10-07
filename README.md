@@ -19,6 +19,7 @@ and under heavy development.
 - Highlight selected course
 - Better prereq handling
 - Create degree progress interface
+  - ~~Show interface with completed GEs and allow user to write-in~~ 10/6/2016
 - Show remaining GEs
 - Drag and drop in the viewer
 - Preferences 

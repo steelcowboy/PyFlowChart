@@ -3,7 +3,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 class preferences_dialog(Gtk.Dialog):
-    def __init__(self, parent, courses):
+    def __init__(self, parent, courses, user):
         Gtk.Dialog.__init__(self, "Preferences", parent,
             0, (Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
         self.set_size_request(400, -1)
@@ -26,10 +26,11 @@ class preferences_dialog(Gtk.Dialog):
         self.user.set_column_homogeneous(True)
         self.user.attach(Gtk.Label("Year:"), 0, 0, 1, 1)
         
-        year_selector = Gtk.ComboBoxText()
-        self.user.attach(year_selector, 1, 0, 1, 1)
-        for x in range(0,6):
-            year_selector.append_text(str(x))
+        self.year_selector = Gtk.ComboBoxText()
+        self.user.attach(self.year_selector, 1, 0, 1, 1)
+        for x in range(1,6):
+            self.year_selector.append_text(str(x))
+        self.year_selector.set_active(user['year']-1)
         
         self.notebook.append_page(self.user, Gtk.Label("User Info"))
 

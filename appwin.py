@@ -204,11 +204,14 @@ class AppWindow(Gtk.Window):
             if course['ge_type'] != None and course['catalog'] not in self.course_manager.ge_map:
                 self.course_manager.ge_map[course['ge_type']] = course['catalog']
 
-        dialog = preferences_dialog(self, self.course_manager.ge_map)
+        dialog = preferences_dialog(self, self.course_manager.ge_map, self.course_manager.user)
 
         response = dialog.run()
 
         if response == Gtk.ResponseType.OK:
+            year = int(dialog.year_selector.get_active_text())
+            self.course_manager.user['year'] = year 
+
             for x in dialog.entry_positions:
                 entry = dialog.ges.get_child_at(1, x)
                 if entry.get_text() != '':
@@ -217,8 +220,9 @@ class AppWindow(Gtk.Window):
                     continue
 
                 label = dialog.ges.get_child_at(0, x).get_label()
-                
                 self.course_manager.ge_map[label] = text
+
+
             self.save_preferences()
 
         dialog.destroy()
@@ -227,7 +231,7 @@ class AppWindow(Gtk.Window):
         """Save preferences."""
         with open(self.config_file, 'w') as conf:
             config = {
-                    'userInfo' : {},
+                    'userInfo' : self.course_manager.user,
                     'GEs'      : self.course_manager.ge_map
                     }
             conf.write(json.dumps(config, indent=4))

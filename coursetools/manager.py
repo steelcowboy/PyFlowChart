@@ -20,6 +20,11 @@ class CourseManager():
         
         self.courses = []
         self.ge_map = {}
+        
+        self.user = {
+                'year': 1
+                }
+
         self.saved = True
         self.last_course_id = 0
 

@@ -1,4 +1,4 @@
-# PyFlowChart v0.5
+# PyFlowChart v0.7
 
 PyFlowChart is a project to help students plan out courses 
 for their college career. It is currently beta quality 
@@ -12,15 +12,15 @@ and under heavy development.
 - Ability to keep track of what GE requirements each course fulfills
 
 ## Todo
-- ~~Add IDs to each course~~ 9/2/20.5
-- ~~About dialog~~ 9/6/20.5
-- ~~Better widget sizing~~ 9/8/20.5
-- ~~Check validity of JSON files (currently freezes program)~~ 9/25/20.5
+- ~~Add IDs to each course~~ 9/2/2016
+- ~~About dialog~~ 9/6/2016
+- ~~Better widget sizing~~ 9/8/2016
+- ~~Check validity of JSON files (currently freezes program)~~ 9/25/2016
 - Highlight selected course
 - Better prereq handling
 - Create degree progress interface
-  - ~~Show interface with completed GEs and allow user to write-in~~ 10.5/2016
-- Show remaining GEs
+  - ~~Show interface with completed GEs and allow user to write-in~~ 10/6/2016
+- ~~Show remaining GEs~~ 10/6/2016
 - Drag and drop in the viewer
 - Preferences 
 - More dynamic interface

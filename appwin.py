@@ -123,6 +123,7 @@ class AppWindow(Gtk.Window):
                 return 0
 
             self.course_manager.ge_map = config["GEs"]
+            self.course_manager.user   = config["userInfo"]
 
     def open_file(self, widget):
         """Runs an open file dialog, then instructs the CourseManager 

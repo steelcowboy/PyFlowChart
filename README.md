@@ -24,4 +24,4 @@ and under heavy development.
 - Drag and drop in the viewer
 - Preferences 
 - More dynamic interface
-- Make this a Gio Application
+- Make this a Gio Application (or Kivy)

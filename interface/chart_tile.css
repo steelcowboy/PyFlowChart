@@ -22,3 +22,26 @@
     background-color: #CC99FF;
 }
 
+.major-completed {
+    background-color: #ebebad;
+}
+
+.support-completed {
+    background-color: #f5cca3;
+}
+
+.concentration-completed {
+    background-color: #ebadcc;
+}
+
+.general-ed-completed {
+    background-color: #d9f2d9;
+}
+
+.free-elective-completed {
+    background-color: #d9f2f2;
+}
+
+.minor-completed {
+    background-color: #ccb3e6;
+}

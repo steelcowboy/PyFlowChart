@@ -16,7 +16,8 @@ class ViewerWindow(AppWindow):
         AppWindow.__init__(self, title="Flowchart Viewer")
 
         self.column_template = "year_{}_{}"
-
+        self.quarter_map = dict(enumerate(["fall", "winter", "spring", "summer"]))
+        
         self.setup_window()
         self.connect('delete-event', self.quit)
 
@@ -50,6 +51,7 @@ class ViewerWindow(AppWindow):
                 grid.attach(column, pos*2, 2, 1, 1)
                 column.connect('button-press-event', self.box_clicked)
                 self.columns[column_id] = column.box
+        
     
     def tile_clicked(self, widget, event):
         if event.button == 3:
@@ -97,6 +99,20 @@ class ViewerWindow(AppWindow):
 
             self.columns[time].pack_start(tile, True, True, 0)
 
+        for year in range(1, self.course_manager.user['year']+1):
+            if year == self.course_manager.user['year']:
+                for x in range(0, self.course_manager.quarter):
+                    time = self.column_template.format(year, dict(self.quarter_map)[x])
+                    for tile in self.columns[time].get_children():
+                        tile.get_style_context().remove_class(tile.course_class)
+                        self.get_style_context().add_class(tile.course_class + '-completed')
+            else:
+                for x in range(0,4):
+                    time = self.column_template.format(year, dict(self.quarter_map)[x])
+                    for tile in self.columns[time].get_children():
+                        tile.get_style_context().remove_class(tile.course_class)
+                        tile.get_style_context().add_class(tile.course_class + '-completed')
+    
     def add_entry(self, button):
         new_id = self.course_manager.last_course_id + 1
         self.course_changer.course_id = new_id

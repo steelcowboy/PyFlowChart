@@ -1,5 +1,6 @@
 import json
 from .course import Course 
+from datetime import datetime 
 
 class CourseManager():
     """A class for managing courses.
@@ -19,14 +20,30 @@ class CourseManager():
         self.store = store 
         
         self.courses = []
-        self.ge_map = {}
-        
+        self.ge_map = {}        
         self.user = {
                 'year': 1
                 }
+        
+        today = datetime.today()
+        
+        fall = datetime(today.year, 9, 15)
+        winter = datetime(today.year, 1, 1)
+        spring = datetime(today.year, 3, 31)
+        summer = datetime(today.year, 6, 15)
+
+        if fall <= today <= datetime(today.year, 12, 31):
+            self.quarter = 0
+        elif winter <= today < spring:
+            self.quarter = 1
+        elif spring <= today < summer:
+            self.quarter = 2
+        else:
+            self.quarter = 3
 
         self.saved = True
         self.last_course_id = 0
+
 
     def load_file(self, filename):
         """Load a file into the course manager.

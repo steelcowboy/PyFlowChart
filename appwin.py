@@ -23,14 +23,14 @@ class AppWindow(Gtk.Window):
         course_changer (CourseChanger): the CourseChanger instance associated with the session.
     """
     def __init__(self, title): 
-        self.chart_dir = os.path.expanduser("~/.config/PyFlowChart/charts")
-        if not os.path.exists(self.chart_dir):
-            os.makedirs(self.chart_dir)
-        self.config_file = os.path.expanduser("~/.config/PyFlowChart/config")
-    
         Gtk.Window.__init__(self, title=title)
         
         self.filename = None
+
+        self.config_dir = os.path.expanduser("~/.config/PyFlowChart")
+        self.config_file = os.path.expanduser("~/.config/PyFlowChart/config")
+        self.chart_dir = os.path.expanduser("~/.config/PyFlowChart/charts")
+        self.check_config()
 
         self.events = {
                 'onOpenPress'    : self.open_file,
@@ -51,6 +51,18 @@ class AppWindow(Gtk.Window):
         #self.preferences_dialog = preferences_dialog(self)
         
         self.parse_config()
+
+    def check_config(self):
+        if not os.path.exists(self.chart_dir):
+            os.makedirs(self.chart_dir)
+        if not os.path.exists(self.config_file):
+            with open(self.config_file, 'w') as conf:
+                config = {
+                        'userInfo' : {'year': 1},
+                        'GEs'      : {}
+                        }
+                conf.write(json.dumps(config, indent=4))
+    
 
     def create_confirm_dialog(self):
         """Returns a dialog object to prompt the user if the flowchart is unsaved."""

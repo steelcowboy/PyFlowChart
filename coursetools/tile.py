@@ -14,7 +14,9 @@ class courseTile(Gtk.EventBox, Course):
         Course.__init__(
                 self, title, catalog, units, prereqs, time, course_type, ge_type, course_id)
 
-        self.get_style_context().add_class(self.course_type.lower().replace(" ", "-"))
+        self.course_class = self.course_type.lower().replace(" ", "-")
+        self.get_style_context().add_class(self.course_class)
+
         self.set_size_request(200, -1)
         
         self.frame = Gtk.Frame()

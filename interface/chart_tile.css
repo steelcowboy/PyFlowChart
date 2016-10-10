@@ -23,25 +23,25 @@
 }
 
 .major-completed {
-    background-color: #ebebad;
+    background-color: #c2c270;
 }
 
 .support-completed {
-    background-color: #f5cca3;
+    background-color: #c29970;
 }
 
 .concentration-completed {
-    background-color: #ebadcc;
+    background-color: #c27099;
 }
 
 .general-ed-completed {
-    background-color: #d9f2d9;
+    background-color: #70c270;
 }
 
 .free-elective-completed {
-    background-color: #d9f2f2;
+    background-color: #70c2c2;
 }
 
 .minor-completed {
-    background-color: #ccb3e6;
+    background-color: #9970c2;
 }

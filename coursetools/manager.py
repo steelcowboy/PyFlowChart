@@ -58,7 +58,7 @@ class CourseManager():
         with open(filename, 'r') as jsonfile:
             try:
                 courses = json.loads(jsonfile.read())
-            except json.decoder.JSONDecodeError:
+            except ValueError: 
                 return 0
 
             file_courses = courses

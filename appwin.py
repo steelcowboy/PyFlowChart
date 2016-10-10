@@ -131,7 +131,7 @@ class AppWindow(Gtk.Window):
         with open(self.config_file, 'r') as jsonfile:
             try:
                 config = json.loads(jsonfile.read())
-            except json.decoder.JSONDecodeError:
+            except ValueError:
                 return 0
 
             self.course_manager.ge_map = config["GEs"]

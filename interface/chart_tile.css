@@ -45,3 +45,11 @@
 .minor-completed {
     background-color: #f2e5ff;
 }
+
+.ge-text {
+    color: #00366C;
+}
+
+.prereq-text {
+    color: #047440;
+}

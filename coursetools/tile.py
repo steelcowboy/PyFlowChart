@@ -35,6 +35,7 @@ class courseTile(Gtk.EventBox, Course):
         self.prereqs_text = Gtk.Label("(" + ', '.join(self.prereqs) + ")")
         if self.ge_type is not None:
             self.ge_text = Gtk.Label("[" + self.ge_type + "]")
+            self.ge_text.get_style_context().add_class('ge-text')
             self.box.pack_end(self.ge_text, True, True, 0)
 
         self.title_text.set_line_wrap(True)
@@ -44,6 +45,7 @@ class courseTile(Gtk.EventBox, Course):
         self.catalog_text.set_justify(Gtk.Justification.CENTER)
         self.credits_text.set_justify(Gtk.Justification.CENTER)
         self.prereqs_text.set_justify(Gtk.Justification.CENTER)
+        self.prereqs_text.get_style_context().add_class('prereq-text')
 
         self.box.pack_start(self.title_text, True, True, 0)
         self.box.pack_start(self.catalog_text, True, True, 0)

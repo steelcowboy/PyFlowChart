@@ -105,7 +105,7 @@ class ViewerWindow(AppWindow):
                     time = self.column_template.format(year, dict(self.quarter_map)[x])
                     for tile in self.columns[time].get_children():
                         tile.get_style_context().remove_class(tile.course_class)
-                        self.get_style_context().add_class(tile.course_class + '-completed')
+                        tile.get_style_context().add_class(tile.course_class + '-completed')
             else:
                 for x in range(0,4):
                     time = self.column_template.format(year, dict(self.quarter_map)[x])

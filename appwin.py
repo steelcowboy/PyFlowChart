@@ -1,7 +1,6 @@
 import gi, json, os
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-from copy import deepcopy
 
 from interface.about import about_dialog
 from interface.preferences import preferences_dialog 
@@ -214,7 +213,9 @@ class AppWindow(Gtk.Window):
 
     def preferences(self, button=None):
         for course in self.course_manager.courses:
-            if course['ge_type'] != None and course['catalog'] not in self.course_manager.ge_map:
+            if (course['ge_type'] != None and
+                    course['catalog'] not in self.course_manager.ge_map and
+                    course['ge_type'] not in self.course_manager.ge_map): 
                 self.course_manager.ge_map[course['ge_type']] = course['catalog']
 
         dialog = preferences_dialog(self, self.course_manager.ge_map, self.course_manager.user)
@@ -225,10 +226,12 @@ class AppWindow(Gtk.Window):
             year = int(dialog.year_selector.get_active_text())
             self.course_manager.user['year'] = year 
 
-            for x in dialog.entry_positions:
-                entry = dialog.ges.get_child_at(1, x)
-                if entry.get_text() != '':
-                    text = entry.get_text()
+            for x in range(dialog.ge_length):
+                ge_label = dialog.ges.get_child_at(1, x)
+                if ge_label.text is not None :
+                    text = ge_label.text
+                elif ge_label.has_entry and ge_label.entry.get_text() != '':
+                    text = ge_label.entry.get_text()
                 else:
                     continue
 

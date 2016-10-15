@@ -1,6 +1,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+from .editable_label import editable_label 
 
 class preferences_dialog(Gtk.Dialog):
     def __init__(self, parent, courses, user):
@@ -16,7 +17,8 @@ class preferences_dialog(Gtk.Dialog):
                 'D1', 'D2', 'D3', 'D4/E', 'D5', 
                 'F'
                 ]
-        self.entry_positions = []
+        
+        self.ge_length = len(self.ge_list)
 
         self.notebook = Gtk.Notebook()
         self.box = self.get_content_area()
@@ -40,10 +42,9 @@ class preferences_dialog(Gtk.Dialog):
         for pos, ge in enumerate(self.ge_list):
             self.ges.attach(Gtk.Label(ge), 0, pos, 1, 1)
             if ge in self.planned_ges:
-                self.ges.attach(Gtk.Label(self.planned_ges[ge]), 1, pos, 1, 1)
+                self.ges.attach(editable_label(self.planned_ges[ge]), 1, pos, 1, 1)
             else:
-                self.ges.attach(Gtk.Entry(), 1, pos, 1, 1)
-                self.entry_positions.append(pos)
+                self.ges.attach(editable_label(), 1, pos, 1, 1)
 
         self.notebook.append_page(self.ges, Gtk.Label("GEs"))
         

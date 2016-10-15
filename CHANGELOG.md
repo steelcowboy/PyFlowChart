@@ -1,6 +1,8 @@
 # 0.7 ()
 - Set up mechanism to determine which courses have been completed
 - Set up better handling of the config file
+- Colored GE indicators, prereqs, and completed courses
+- Made GEs editable in preferences
 
 # 0.6 (10-6-2016)
 - PyFlowChart now makes a config directory, which stores

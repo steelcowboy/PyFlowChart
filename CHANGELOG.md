@@ -1,4 +1,4 @@
-# 0.7 ()
+# 0.7 (10-14-2016)
 - Set up mechanism to determine which courses have been completed
 - Set up better handling of the config file
 - Colored GE indicators, prereqs, and completed courses

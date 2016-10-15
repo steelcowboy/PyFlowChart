@@ -22,6 +22,6 @@ and under heavy development.
   - ~~Show interface with completed GEs and allow user to write-in~~ 10/6/2016
 - ~~Show remaining GEs~~ 10/6/2016
 - Drag and drop in the viewer
-- Preferences 
+- ~~Preferences~~ 10/6/2016 
 - More dynamic interface
 - Make this a Gio Application (or Kivy)

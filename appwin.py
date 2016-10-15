@@ -32,6 +32,7 @@ class AppWindow(Gtk.Window):
         self.check_config()
 
         self.events = {
+                'onNewPress'     : self.new_file,
                 'onOpenPress'    : self.open_file,
                 'onAddPress'     : self.add_entry,
                 'onEditPress'    : self.edit_entry,
@@ -52,6 +53,8 @@ class AppWindow(Gtk.Window):
         self.parse_config()
 
     def check_config(self):
+        """Make sure all files and folders exist, and make sure 
+        the config file is properly formatted."""
         if not os.path.exists(self.chart_dir):
             os.makedirs(self.chart_dir)
         if not os.path.exists(self.config_file):
@@ -61,7 +64,6 @@ class AppWindow(Gtk.Window):
                         'GEs'      : {}
                         }
                 conf.write(json.dumps(config, indent=4))
-    
 
     def create_confirm_dialog(self):
         """Returns a dialog object to prompt the user if the flowchart is unsaved."""
@@ -127,6 +129,7 @@ class AppWindow(Gtk.Window):
             return new_course
 
     def parse_config(self):
+        """Open the config file and read the data."""
         with open(self.config_file, 'r') as jsonfile:
             try:
                 config = json.loads(jsonfile.read())
@@ -136,13 +139,30 @@ class AppWindow(Gtk.Window):
             self.course_manager.ge_map = config["GEs"]
             self.course_manager.user   = config["userInfo"]
 
+    def new_file(self, widget=None):
+        """Clears everything from CourseManager to create a new file.
+        
+        Returns:
+            1 if successful, 0 otherwise. 
+        """
+        if not self.course_manager.saved:
+            dialog = self.create_confirm_dialog()
+            confirm_response = dialog.run()
+            dialog.destroy()
+
+            if confirm_response == Gtk.ResponseType.CANCEL: 
+                return 0 
+        
+        self.filename = None 
+        self.course_manager.courses = []
+        if self.course_manager.store:
+            self.course_manager.store.clear()
+        return 1
+
+
     def open_file(self, widget):
         """Runs an open file dialog, then instructs the CourseManager 
         to load the chosen file.
-
-        Note: 
-            Ensuring the file is a proper JSON file has not been properly
-            implemented yet.
 
         Returns:
             1 if successful, 0 otherwise.

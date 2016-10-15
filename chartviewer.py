@@ -68,6 +68,14 @@ class ViewerWindow(AppWindow):
             self.course_changer.add_quarter = widget.quarter
         return True
 
+    def new_file(self, widget):
+        if not super(ViewerWindow, self).new_file(widget):
+            return
+
+        for time, box in self.columns.items():
+            for tile in box.get_children():
+                tile.destroy()
+
     def open_file(self, widget):
         if not super(ViewerWindow, self).open_file(widget):
             return

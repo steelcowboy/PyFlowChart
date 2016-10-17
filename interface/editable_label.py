@@ -30,6 +30,7 @@ class editable_label(Gtk.EventBox):
                 self.entry.connect('activate', self.enter_key)
                 self.entry.set_text(self.text)
                 self.add(self.entry)
+                self.text = None
                 
                 self.show_all() 
                 self.has_entry = True

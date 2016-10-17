@@ -1,4 +1,4 @@
-# PyFlowChart v0.7
+# PyFlowChart v0.7.1
 
 PyFlowChart is a project to help students plan out courses 
 for their college career. It is currently beta quality 

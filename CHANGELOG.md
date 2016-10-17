@@ -1,4 +1,7 @@
-# 0.7 (10-16-2016)
+# 0.7.1 (10-16-2016)
+- Fixed bug where attempting to delete GE entry failed
+
+# 0.7 (10-15-2016)
 - Set up mechanism to determine which courses have been completed
 - Set up better handling of the config file
 - Colored GE indicators, prereqs, and completed courses

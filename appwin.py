@@ -244,7 +244,8 @@ class AppWindow(Gtk.Window):
 
         if response == Gtk.ResponseType.OK:
             year = int(dialog.year_selector.get_active_text())
-            self.course_manager.user['year'] = year 
+            self.course_manager.user['year'] = year
+            self.course_manager.ge_map = {}
 
             for x in range(dialog.ge_length):
                 ge_label = dialog.ges.get_child_at(1, x)

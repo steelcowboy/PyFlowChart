@@ -11,17 +11,22 @@ and under heavy development.
 - ChartViewer color codes the courses based on type
 - Ability to keep track of what GE requirements each course fulfills
 
-## Todo
+## Version 1.0 Milestones
 - ~~Add IDs to each course~~ 9/2/2016
 - ~~About dialog~~ 9/6/2016
 - ~~Better widget sizing~~ 9/8/2016
 - ~~Check validity of JSON files (currently freezes program)~~ 9/25/2016
-- Highlight selected course
-- Better prereq handling
-- Create degree progress interface
-  - ~~Show interface with completed GEs and allow user to write-in~~ 10/6/2016
 - ~~Show remaining GEs~~ 10/6/2016
-- Drag and drop in the viewer
 - ~~Preferences~~ 10/6/2016 
+- ~~*Drag and drop in the viewer*~~ Will be in Kivy 
+- ~~Show interface with completed GEs and allow user to write-in~~ 10/6/2016
+- Deal with case where user adds a course before its prereqs have been fulfilled
 - More dynamic interface
-- Make this a Gio Application (or Kivy)
+  - Allow adding special quarters (AP, Q+)
+- Combine chartbuilder and chartviewer
+- Add some help pages 
+- Package PyFlowChart for all three major operating systems, including multiple Linux distributions
+
+## Version 2.0 Milestones
+- Make this a Kivy Application
+  - Drag and Drop in viewer

@@ -111,15 +111,18 @@ class ViewerWindow(AppWindow):
             if year == self.course_manager.user['year']:
                 for x in range(0, self.course_manager.quarter):
                     time = self.column_template.format(year, dict(self.quarter_map)[x])
-                    for tile in self.columns[time].get_children():
-                        tile.get_style_context().remove_class(tile.course_class)
-                        tile.get_style_context().add_class(tile.course_class + '-completed')
+                    self.columns[time].get_style_context().add_class('completed')
+                    #for tile in self.columns[time].get_children():
+                    #    tile.get_style_context().remove_class(tile.course_class)
+                    #    tile.get_style_context().add_class(tile.course_class + '-completed')
             else:
                 for x in range(0,4):
                     time = self.column_template.format(year, dict(self.quarter_map)[x])
-                    for tile in self.columns[time].get_children():
-                        tile.get_style_context().remove_class(tile.course_class)
-                        tile.get_style_context().add_class(tile.course_class + '-completed')
+                    self.columns[time].get_style_context().add_class('completed')
+
+                    #for tile in self.columns[time].get_children():
+                    #    tile.get_style_context().remove_class(tile.course_class)
+                    #    tile.get_style_context().add_class(tile.course_class + '-completed')
     
     def add_entry(self, button):
         new_id = self.course_manager.last_course_id + 1
@@ -156,7 +159,28 @@ class ViewerWindow(AppWindow):
             return False
 
         self.course_manager.edit_entry(chosen_course=entry)
-        self.load_courses()
+            
+        tile = courseTile(
+                entry.title,       
+                entry.catalog,    
+                entry.credits,    
+                entry.prereqs,
+                entry.time,    
+                entry.course_type,  
+                entry.ge_type,
+                entry.course_id
+                )
+        
+        tile.connect('button-press-event', self.tile_clicked)
+
+        time = self.column_template.format(
+                entry.time[0], 
+                entry.time[1].lower()
+                )
+
+        self.columns[time].pack_start(tile, True, True, 0)
+
+        self.selected_tile.destroy()
 
     def delete_entry(self, button):
         self.course_manager.delete_entry(self.selected_tile)

@@ -222,7 +222,9 @@ class AppWindow(Gtk.Window):
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            self.filename = dialog.get_filename() + ".json"
+            fn = dialog.get_filename()
+            self.filename = fn if ".json" in fn else fn + ".json"
+            #self.filename = dialog.get_filename() + ".json"
             dialog.destroy()
             self.course_manager.save(self.filename)
         

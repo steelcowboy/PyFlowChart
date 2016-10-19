@@ -1,6 +1,8 @@
 # 0.8 ()
 - Made editing a course more efficient
 - Columns now bear a completed CSS class, and all courses determine their color based on it
+- Implemented Drag and Drop
+- Dynamic interface
 
 # 0.7.1 (10-16-2016)
 - Fixed bug where attempting to delete GE entry failed

@@ -2,10 +2,13 @@
 
 from .course import Course
 import gi
-
 gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk
 
-from gi.repository import Gtk
+TARGET_ENTRY_TEXT = 0
+COLUMN_TEXT = 0
+
+DRAG_ACTION = Gdk.DragAction.COPY
 
 class courseTile(Gtk.EventBox, Course):
     """An EventBox that contains all data and menthods of a Course."""
@@ -52,13 +55,15 @@ class courseTile(Gtk.EventBox, Course):
         self.box.pack_start(self.credits_text, True, True, 0)
         self.box.pack_start(self.prereqs_text, True, True, 0)
 
+        self.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [],
+            DRAG_ACTION)
         self.connect("drag-data-get", self.on_drag_data_get)
 
         self.show_all()
    
     def on_drag_data_get(self, widget, drag_context, data, info, time):
         """Not yet implemented."""
-        text = self.title 
+        text = str(self.course_id)  
         data.set_text(text, -1)
 
 class tileColumn(Gtk.EventBox):
@@ -80,4 +85,12 @@ class tileColumn(Gtk.EventBox):
         self.box.set_vexpand(True)
         self.box.set_valign(Gtk.Align.START)
         self.add(self.box)
+    
+        self.drag_dest_set(Gtk.DestDefaults.ALL, [], DRAG_ACTION)
+        
+        self.connect("drag-data-received", self.on_drag_data_received)
 
+    def on_drag_data_received(self, widget, drag_context, x,y, data,info, time):
+        if info == TARGET_ENTRY_TEXT:
+            text = data.get_text()
+            print("Going to edit: %s" % text)

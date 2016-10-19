@@ -6,6 +6,10 @@ from coursetools.tile import courseTile, tileColumn
 from coursetools.manager import CourseManager
 from appwin import AppWindow
 
+TARGET_ENTRY_TEXT = 0
+COLUMN_TEXT = 0
+
+DRAG_ACTION = Gdk.DragAction.COPY
 
 class ViewerWindow(AppWindow):
     """A class to create an interface for viewing and modifying a flowchart.."""
@@ -20,6 +24,12 @@ class ViewerWindow(AppWindow):
         
         self.setup_window()
         self.connect('delete-event', self.quit)
+
+        self.drag_dest_set(Gtk.DestDefaults.ALL, [], DRAG_ACTION)
+        self.connect("drag-data-received", self.on_drag_data_received)
+
+        self.drag_dest_set_target_list(None)
+        self.drag_dest_add_text_targets()
 
     def setup_window(self):
         main_grid = Gtk.Grid()
@@ -48,6 +58,11 @@ class ViewerWindow(AppWindow):
             for pos, quarter in enumerate(["fall", "winter", "spring", "summer"]):
                 column_id = self.column_template.format(year, quarter)
                 column = tileColumn(year, quarter)
+                
+                # For drag and drop
+                column.drag_dest_set_target_list(None)
+                column.drag_dest_add_text_targets()
+
                 grid.attach(column, pos*2, 2, 1, 1)
                 column.connect('button-press-event', self.box_clicked)
                 self.columns[column_id] = column.box
@@ -99,6 +114,10 @@ class ViewerWindow(AppWindow):
                     course['course_id'] 
                     )
             tile.connect('button-press-event', self.tile_clicked)
+            
+            # Drag and drop
+            tile.drag_source_set_target_list(None)
+            tile.drag_source_add_text_targets()
 
             time = self.column_template.format(
                     course['time'][0], 
@@ -185,6 +204,11 @@ class ViewerWindow(AppWindow):
     def delete_entry(self, button):
         self.course_manager.delete_entry(self.selected_tile)
         self.selected_tile.destroy()
+
+    def on_drag_data_received(self, widget, drag_context, x,y, data,info, time):
+        if info == TARGET_ENTRY_TEXT:
+            text = data.get_text()
+            print("The window will edit id: %s" % text)
 
 if __name__ == "__main__":
     provider = Gtk.CssProvider()

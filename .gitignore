@@ -2,7 +2,6 @@ __pycache__
 
 # These two may be implemented in the future
 program_information.py
-interface/viewergrid.py
 
 # I will have a documentation system at some point...
 docs/*

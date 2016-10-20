@@ -8,7 +8,7 @@ class quarterColumn(Gtk.EventBox):
         Gtk.EventBox.__init__(self)
 
         self.year = year
-        self.quarter = quarter.capitalize()
+        self.quarter = quarter
 
         self.set_hexpand(True)
         self.set_vexpand(True)
@@ -22,6 +22,7 @@ class quarterColumn(Gtk.EventBox):
         self.box.set_valign(Gtk.Align.START)
         self.add(self.box)
 
+        self.show_all() 
 
 class yearGrid(Gtk.Grid):
     def __init__(self, year):
@@ -40,6 +41,17 @@ class yearGrid(Gtk.Grid):
         self.set_hexpand(True)
         self.set_valign(Gtk.Align.FILL)
         self.set_halign(Gtk.Align.FILL)
+
+        horizontal_separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+        self.attach(horizontal_separator, 0, 1, 1, 1)
+
+        for x in range(4):
+            self.insert_column(x)
+            quarter = quarterColumn(self.year, self.quarters[x])
+            self.quarter_map[x] = quarter 
+            self.attach(quarter, x, 0, 1, 1)
+
+        self.show_all()
 
 class courseGrid(Gtk.Grid):
     def __init__(self):
@@ -62,8 +74,13 @@ class courseGrid(Gtk.Grid):
         self.set_margin_start(10)
         self.set_margin_end(10)
     
-        horizontal_separator = Gtk.Separator(Gtk.Orientation.HORIZONTAL)
-        self.attach(0, 1, 1, 1)
+        horizontal_separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+        self.attach(horizontal_separator, 0, 1, 1, 1)
+        
+        for x in range(1,5):
+            self.add_year(x)
+
+        self.show_all()
 
     def new_column(self):
         self.width = self.width + 1
@@ -75,9 +92,9 @@ class courseGrid(Gtk.Grid):
         year_grid = yearGrid(year_number)
         # Update map of years
         self.year_map[year_number] = year_grid
-        label = Gtk.Label.new_with_text(self.nth[year_number])
+        label = Gtk.Label(self.nth[year_number])
 
-        left_separator = Gtk.Separator(Gtk.Orientation.VERTICAL)
+        left_separator = Gtk.Separator(orientation=Gtk.Orientation.VERTICAL)
         left_separator.set_margin_start(10)
         left_separator.set_margin_end(1)
         self.attach(left_separator, self.new_column(), 0, 1, 3)
@@ -85,7 +102,7 @@ class courseGrid(Gtk.Grid):
         self.attach(year_grid, self.new_column(), 2, 1, 1)
         self.attach(label, self.width, 0, 1, 1)
         
-        right_separator = Gtk.Separator(Gtk.Orientation.VERTICAL)
+        right_separator = Gtk.Separator(orientation=Gtk.Orientation.VERTICAL)
         right_separator.set_margin_start(1)
         right_separator.set_margin_end(10)
         self.attach(right_separator, self.new_column(), 0, 1, 3)

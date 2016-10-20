@@ -18,3 +18,5 @@ update.sh
 *.html
 *.xml
 
+# Don't include anything starting with "test"
+test*

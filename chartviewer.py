@@ -25,12 +25,6 @@ class ViewerWindow(AppWindow):
         self.setup_window()
         self.connect('delete-event', self.quit)
 
-        self.drag_dest_set(Gtk.DestDefaults.ALL, [], DRAG_ACTION)
-        self.connect("drag-data-received", self.on_drag_data_received)
-
-        self.drag_dest_set_target_list(None)
-        self.drag_dest_add_text_targets()
-
     def setup_window(self):
         main_grid = Gtk.Grid()
         self.add(main_grid)
@@ -65,6 +59,7 @@ class ViewerWindow(AppWindow):
 
                 grid.attach(column, pos*2, 2, 1, 1)
                 column.connect('button-press-event', self.box_clicked)
+                column.connect("drag-data-received", self.on_drag_data_received)
                 self.columns[column_id] = column.box
         
     
@@ -114,6 +109,7 @@ class ViewerWindow(AppWindow):
                     course['course_id'] 
                     )
             tile.connect('button-press-event', self.tile_clicked)
+            tile.connect("drag-data-get", self.on_drag_data_get)
             
             # Drag and drop
             tile.drag_source_set_target_list(None)
@@ -164,6 +160,11 @@ class ViewerWindow(AppWindow):
                 new_id
                 )
         tile.connect('button-press-event', self.tile_clicked)
+        tile.connect("drag-data-get", self.on_drag_data_get)
+        
+        # Drag and drop
+        tile.drag_source_set_target_list(None)
+        tile.drag_source_add_text_targets()
 
         time = self.column_template.format(
                 entry.time[0], 
@@ -191,6 +192,11 @@ class ViewerWindow(AppWindow):
                 )
         
         tile.connect('button-press-event', self.tile_clicked)
+        tile.connect("drag-data-get", self.on_drag_data_get)
+        
+        # Drag and drop
+        tile.drag_source_set_target_list(None)
+        tile.drag_source_add_text_targets()
 
         time = self.column_template.format(
                 entry.time[0], 
@@ -205,11 +211,45 @@ class ViewerWindow(AppWindow):
         self.course_manager.delete_entry(self.selected_tile)
         self.selected_tile.destroy()
 
-    def on_drag_data_received(self, widget, drag_context, x,y, data,info, time):
-        if info == TARGET_ENTRY_TEXT:
-            text = data.get_text()
-            print("The window will edit id: %s" % text)
+    def on_drag_data_get(self, widget, drag_context, data, info, time):
+        """Not yet implemented."""
+        text = str(widget.course_id)  
+        widget.destroy()
+        data.set_text(text, -1)
 
+    def on_drag_data_received(self, widget, drag_context, x,y, data,info, time):
+        tile_id = int(data.get_text())
+        for course in self.course_manager.courses:
+            if course['course_id'] == tile_id:
+                time = [widget.year, widget.quarter]
+                tile = courseTile(
+                        course['title'],       
+                        course['catalog'],    
+                        course['credits'],    
+                        course['prereqs'],
+                        time,    
+                        course['course_type'],  
+                        course['ge_type'],
+                        course['course_id']
+                        )
+                
+                tile.connect('button-press-event', self.tile_clicked)
+                tile.connect("drag-data-get", self.on_drag_data_get)
+                
+                # Drag and drop
+                tile.drag_source_set_target_list(None)
+                tile.drag_source_add_text_targets()
+
+                time = self.column_template.format(
+                        time[0], 
+                        time[1].lower()
+                        )
+
+                self.columns[time].pack_start(tile, True, True, 0)
+
+                # print("Know what you're talking about!")
+                # print(course['catalog'])
+                # print("I will now put it in year {} {} quarter for you cause I love you!".format(widget.year, widget.quarter))
 if __name__ == "__main__":
     provider = Gtk.CssProvider()
     provider.load_from_path('./interface/chart_tile.css')

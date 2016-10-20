@@ -35,25 +35,28 @@ class courseTile(Gtk.EventBox, Course):
         self.title_text = Gtk.Label(self.title)
         self.catalog_text = Gtk.Label(self.catalog)
         self.credits_text = Gtk.Label("(" + str(self.credits) + ")")
-        self.prereqs_text = Gtk.Label("(" + ', '.join(self.prereqs) + ")")
+
+        if self.prereqs and self.prereqs != ['']:
+            self.prereqs_text = Gtk.Label("(" + ', '.join(self.prereqs) + ")")
+            self.prereqs_text.get_style_context().add_class('prereq-text')
+            self.prereqs_text.set_justify(Gtk.Justification.CENTER)
+            self.prereqs_text.set_line_wrap(True)
+            self.box.pack_end(self.prereqs_text, True, True, 0)
+
         if self.ge_type is not None:
             self.ge_text = Gtk.Label("[" + self.ge_type + "]")
             self.ge_text.get_style_context().add_class('ge-text')
             self.box.pack_end(self.ge_text, True, True, 0)
 
         self.title_text.set_line_wrap(True)
-        self.prereqs_text.set_line_wrap(True)
 
         self.title_text.set_justify(Gtk.Justification.CENTER)
         self.catalog_text.set_justify(Gtk.Justification.CENTER)
         self.credits_text.set_justify(Gtk.Justification.CENTER)
-        self.prereqs_text.set_justify(Gtk.Justification.CENTER)
-        self.prereqs_text.get_style_context().add_class('prereq-text')
 
         self.box.pack_start(self.title_text, True, True, 0)
         self.box.pack_start(self.catalog_text, True, True, 0)
         self.box.pack_start(self.credits_text, True, True, 0)
-        self.box.pack_start(self.prereqs_text, True, True, 0)
 
         self.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [],
             DRAG_ACTION)

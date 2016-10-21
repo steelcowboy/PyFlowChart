@@ -43,13 +43,17 @@ class yearGrid(Gtk.Grid):
         self.set_halign(Gtk.Align.FILL)
 
         horizontal_separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
-        self.attach(horizontal_separator, 0, 1, 1, 1)
+        self.attach(horizontal_separator, 0, 1, 2, 1)
 
         for x in range(4):
-            self.insert_column(x)
+            self.insert_column(x+1)
             quarter = quarterColumn(self.year, self.quarters[x])
+            
+            label = Gtk.Label(self.quarters[x])
+            self.attach(label, x, 0, 1, 1)
+
             self.quarter_map[x] = quarter 
-            self.attach(quarter, x, 0, 1, 1)
+            self.attach(quarter, x, 2, 1, 1)
 
         self.show_all()
 
@@ -75,7 +79,7 @@ class courseGrid(Gtk.Grid):
         self.set_margin_end(10)
     
         horizontal_separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
-        self.attach(horizontal_separator, 0, 1, 1, 1)
+        self.attach(horizontal_separator, 0, 1, 2, 1)
         
         for x in range(1,5):
             self.add_year(x)
@@ -92,7 +96,7 @@ class courseGrid(Gtk.Grid):
         year_grid = yearGrid(year_number)
         # Update map of years
         self.year_map[year_number] = year_grid
-        label = Gtk.Label(self.nth[year_number])
+        label = Gtk.Label(self.nth[year_number] + " Year")
 
         left_separator = Gtk.Separator(orientation=Gtk.Orientation.VERTICAL)
         left_separator.set_margin_start(10)

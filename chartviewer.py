@@ -43,8 +43,6 @@ class ViewerWindow(AppWindow):
         scroll_window.set_hexpand(True)
         main_grid.attach(scroll_window, 0, 1, 1, 1)
 
-        #chart_builder = Gtk.Builder.new_from_file('./interface/glade/chartview_grid.glade')
-        #courses_grid = chart_builder.get_object('courses_grid')
         self.courses_grid = courseGrid()
         scroll_window.add(self.courses_grid)
     
@@ -52,14 +50,12 @@ class ViewerWindow(AppWindow):
         for year in range(1,5):
             for pos, quarter in enumerate(["fall", "winter", "spring", "summer"]):
                 column_id = self.column_template.format(year, quarter)
-                #column = tileColumn(year, quarter)
                 column = self.courses_grid.year_map[year].quarter_map[pos]
 
                 # For drag and drop
                 column.drag_dest_set_target_list(None)
                 column.drag_dest_add_text_targets()
 
-                #grid.attach(column, pos*2, 2, 1, 1)
                 column.connect('button-press-event', self.box_clicked)
                 column.connect("drag-data-received", self.on_drag_data_received)
                 self.columns[column_id] = column.box
@@ -249,9 +245,8 @@ class ViewerWindow(AppWindow):
 
                 self.columns[time].pack_start(tile, True, True, 0)
 
-                # print("Know what you're talking about!")
-                # print(course['catalog'])
-                # print("I will now put it in year {} {} quarter for you cause I love you!".format(widget.year, widget.quarter))
+                self.course_manager.edit_entry(chosen_course=tile)
+
 if __name__ == "__main__":
     provider = Gtk.CssProvider()
     provider.load_from_path('./interface/chart_tile.css')

@@ -1,8 +1,10 @@
-# 0.8 ()
+# 0.8 (10-22-2016)
 - Made editing a course more efficient
 - Columns now bear a completed CSS class, and all courses determine their color based on it
 - Implemented Drag and Drop
-- Dynamic interface
+- More dynamic interface
+  - Quarters can now be hidden by right clicking them
+  - Right clicking the year will allow you to toggle quarter visibility
 
 # 0.7.1 (10-16-2016)
 - Fixed bug where attempting to delete GE entry failed

@@ -157,6 +157,7 @@ class AppWindow(Gtk.Window):
         self.course_manager.courses = []
         if self.course_manager.store:
             self.course_manager.store.clear()
+        self.course_manager.saved = True
         return 1
 
 

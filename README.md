@@ -18,15 +18,16 @@ and under heavy development.
 - ~~Check validity of JSON files (currently freezes program)~~ 9/25/2016
 - ~~Show remaining GEs~~ 10/6/2016
 - ~~Preferences~~ 10/6/2016 
-- ~~*Drag and drop in the viewer*~~ Will be in Kivy 
 - ~~Show interface with completed GEs and allow user to write-in~~ 10/6/2016
-- Deal with case where user adds a course before its prereqs have been fulfilled
-- More dynamic interface
+- ~~Drag and drop in the viewer~~ 10/21/2016 
+- ~~More dynamic interface~~ *Can now show and hide quarters* 10/21/2016
   - Allow adding special quarters (AP, Q+)
+- Deal with case where user adds a course before its prereqs have been fulfilled
+- Allow copy/pasting of courses
 - Combine chartbuilder and chartviewer
 - Add some help pages 
 - Package PyFlowChart for all three major operating systems, including multiple Linux distributions
 
 ## Version 2.0 Milestones
 - Make this a Kivy Application
-  - Drag and Drop in viewer
+  - ~~Drag and Drop in viewer~~ *Successfully implemented in Gtk*

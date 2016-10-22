@@ -20,3 +20,8 @@ update.sh
 
 # Don't include anything starting with "test"
 test*
+
+# Don't include PyInstaller files
+*.spec
+build/
+dist/

@@ -3,7 +3,6 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
 from coursetools.tile import courseTile, tileColumn
-from coursetools.manager import CourseManager
 from appwin import AppWindow
 from interface.viewergrid import courseGrid
 

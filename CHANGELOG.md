@@ -1,3 +1,5 @@
+# 0.9 ()
+
 # 0.8 (10-22-2016)
 - Made editing a course more efficient
 - Columns now bear a completed CSS class, and all courses determine their color based on it

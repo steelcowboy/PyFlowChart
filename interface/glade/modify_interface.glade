@@ -2,6 +2,21 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.18"/>
+  <object class="GtkImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-missing-image</property>
+  </object>
+  <object class="GtkImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-missing-image</property>
+  </object>
+  <object class="GtkImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-apply</property>
+  </object>
   <object class="GtkMenu" id="add_menu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -443,7 +458,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem">
+              <object class="GtkSeparatorMenuItem" id="edit_sep">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="margin_top">1</property>
@@ -465,25 +480,53 @@
       </object>
     </child>
     <child>
+      <object class="GtkMenuItem" id="view">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">View</property>
+        <child type="submenu">
+          <object class="GtkMenu" id="viewer_mode">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkImageMenuItem" id="viewer_button">
+                <property name="label">gtk-apply</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="use_stock">True</property>
+                <signal name="activate" handler="onViewerPress" swapped="no"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorMenuItem" id="view_sep">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">1</property>
+                <property name="margin_bottom">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkImageMenuItem" id="builder_button">
+                <property name="label">gtk-connect</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="use_stock">True</property>
+                <signal name="activate" handler="onBuilderPress" swapped="no"/>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
       <object class="GtkMenuItem" id="help">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Help</property>
-        <property name="use_underline">True</property>
         <child type="submenu">
           <object class="GtkMenu">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <child>
-              <object class="GtkImageMenuItem">
-                <property name="label">gtk-about</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="use_underline">True</property>
-                <property name="use_stock">True</property>
-                <signal name="activate" handler="onAboutPress" swapped="no"/>
-              </object>
-            </child>
           </object>
         </child>
       </object>

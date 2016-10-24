@@ -41,7 +41,9 @@ class AppWindow(Gtk.Window):
                 'onSaveAsPress'  : self.save_as,
                 'onQuitPress'    : self.quit, 
                 'onAboutPress'   : self.about,
-                'onPrefPress'    : self.preferences
+                'onPrefPress'    : self.preferences,
+                'onViewerPress'  : self.change_to_viewer,
+                'onBuilderPress' : self.change_to_builder
                 }
 
         self.course_manager = CourseManager()

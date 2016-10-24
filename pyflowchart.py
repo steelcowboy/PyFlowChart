@@ -41,7 +41,6 @@ class FlowChartWindow(AppWindow):
 
         self.interface_switcher = Gtk.Notebook()
         self.interface_switcher.set_show_tabs(False)
-        self.interface_switcher.connect('switch-page', self.view_mode_switched)
         main_grid.attach(self.interface_switcher, 0, 1, 1, 1)
         self.setup_viewer()
         self.setup_builder()
@@ -120,15 +119,11 @@ class FlowChartWindow(AppWindow):
 
     def change_to_viewer(self, button):
         self.interface_switcher.set_current_page(0)
+        self.mode = 'viewer'
 
     def change_to_builder(self, button):
         self.interface_switcher.set_current_page(1)
-
-    def view_mode_switched(self, widget, page, page_number):
-        if page:
-            self.mode = 'builder'
-        else:
-            self.mode = 'viewer'
+        self.mode = 'builder'
 
     def treeview_clicked(self, widget, event):
         """Responds to right click events on the TreeView."""
@@ -204,30 +199,6 @@ class FlowChartWindow(AppWindow):
                     time = self.column_template.format(year, dict(self.quarter_map)[x])
                     self.columns[time].get_style_context().add_class('completed')
     
-    def add_entry(self, button):
-        if self.mode == 'viewer':
-            self.add_tile()
-        elif self.mode == 'builder':
-            self.add_tree()
-        else:
-            raise Exception('Unknown program mode!')
-
-    def edit_entry(self, button):
-        if self.mode == 'viewer':
-            self.edit_tile()
-        elif self.mode == 'builder':
-            self.edit_tree()
-        else:
-            raise Exception('Unknown program mode!')
-
-    def delete_entry(self, button):
-        if self.mode == 'viewer':
-            self.delete_tile()
-        elif self.mode == 'builder':
-            self.delete_tree()
-        else:
-            raise Exception('Unknown program mode!')
-
     def make_tile(self, course):
         tile = courseTile(
                 course.title,       
@@ -249,16 +220,25 @@ class FlowChartWindow(AppWindow):
         
         return tile
 
-    def add_tile(self):
+    def add_entry(self, button):
         new_id = self.course_manager.last_course_id + 1
-        self.course_changer.course_id = new_id
 
-        entry = self.create_add_edit_dialog()
-        if not entry:
-            return False
+        if self.mode == 'builder':
+            self.add_changer.course_id = new_id
+            entry = self.add_changer.get_course()
+            entry.course_id = new_id
+
+            self.add_changer.clean_form()
+        elif self.mode == 'viewer':
+            self.course_changer.course_id = new_id
+            entry = self.create_add_edit_dialog()
+            if not entry:
+                return False
+        else:
+            raise Exception('Unknown course mode: {}'.format(self.mode))
 
         self.course_manager.add_entry(entry)
-        tile = make_tile(entry)
+        tile = self.make_tile(entry)
 
         time = self.column_template.format(
                 entry.time[0], 
@@ -267,13 +247,28 @@ class FlowChartWindow(AppWindow):
 
         self.columns[time].pack_start(tile, True, True, 0)
 
-    def edit_tile(self):
-        entry = self.create_add_edit_dialog(self.selected_tile.export())
-        if not entry:            
-            return False
+    def edit_entry(self, button):
+        """Does not connect builder and viewer well"""
+        if self.mode == 'builder':
+            course_selection = self.added_tree.get_selection()
+            path = course_selection.get_selected_rows()[1][0]
+            index = path.get_indices()[0]
+            course = self.course_manager.courses[index]
 
-        self.course_manager.edit_entry(chosen_course=entry)
-        tile = make_tile(entry)
+            entry = self.create_add_edit_dialog(course)
+            if not entry:
+                return False 
+        elif self.mode == 'viewer':
+            entry = self.create_add_edit_dialog(self.selected_tile.export())
+            course_selection = None
+            if not entry:            
+                return False
+        else:
+            raise Exception('Unknown course mode: {}'.format(self.mode))
+
+        self.course_manager.edit_entry(entry, course_selection)
+
+        tile = self.make_tile(entry)
 
         time = self.column_template.format(
                 entry.time[0], 
@@ -281,39 +276,19 @@ class FlowChartWindow(AppWindow):
                 )
 
         self.columns[time].pack_start(tile, True, True, 0)
-
+### Need a self.selected_course
         self.selected_tile.destroy()
 
-    def delete_tile(self):
-        self.course_manager.delete_entry(self.selected_tile)
+    def delete_entry(self, button):
+        if self.mode == 'builder':
+            self.course_manager.delete_entry(selection=self.added_tree.get_selection())
+        elif self.mode == 'viewer':
+            self.course_manager.delete_entry(self.selected_tile)
+        else:
+            raise Exception('Unknown course mode: {}'.format(self.mode))
+        
+### Need self.selected_course which can find tiles and items in tree
         self.selected_tile.destroy()
-
-    def add_tree(self):
-        """Add info to treeview, and update the course manager and changer."""        
-        new_id = self.course_manager.last_course_id + 1
-        self.add_changer.course_id = new_id
-
-        #course_changer.init_objects(self.addbuilder)
-        input_course = self.add_changer.get_course()
-        input_course.course_id = new_id
-
-        self.course_manager.add_entry(input_course)
-        self.add_changer.clean_form()
-
-    def edit_tree(self):
-        """Edit existing entry."""
-        course_selection = self.added_tree.get_selection()
-        path = course_selection.get_selected_rows()[1][0]
-        index = path.get_indices()[0]
-        course = self.course_manager.courses[index]
-
-        entry = self.create_add_edit_dialog(course)
-        if entry:
-            self.course_manager.edit_entry(entry, course_selection)
-
-    def delete_tree(self): 
-        """Delete existing entry."""
-        self.course_manager.delete_entry(selection=self.added_tree.get_selection())
 
     def on_drag_data_get(self, widget, drag_context, data, info, time):
         text = str(widget.course_id)  

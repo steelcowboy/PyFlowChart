@@ -86,7 +86,7 @@ class CourseManager():
                     self.store.append([
                         file_course['catalog'], 
                         str(
-                            file_course['time'][0] + 
+                            str(file_course['time'][0]) + 
                             ', ' + 
                             file_course['time'][1]
                             ), 

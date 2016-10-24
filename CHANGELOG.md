@@ -1,4 +1,5 @@
 # 0.9 ()
+- Unified ChartBuilder and ChartViewer
 
 # 0.8 (10-22-2016)
 - Made editing a course more efficient

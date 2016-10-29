@@ -94,7 +94,7 @@ class FlowChartWindow(AppWindow):
 
         grid.attach(modifygrid, 1, 0, 1, 1)
         
-        self.course_manager.store = Gtk.ListStore(str, str, int, str)
+        self.course_manager.store = Gtk.ListStore(str, str, int, str, int)
 
         self.added_tree = Gtk.TreeView(self.course_manager.store)
         
@@ -164,7 +164,7 @@ class FlowChartWindow(AppWindow):
             for tile in box.get_children():
                 tile.destroy()
 
-        for course in self.course_manager.courses:
+        for c_id, course in self.course_manager.courses.items():
             tile = courseTile(
                     course['title'], 
                     course['catalog'], 
@@ -173,7 +173,7 @@ class FlowChartWindow(AppWindow):
                     course['time'], 
                     course['course_type'],
                     course['ge_type'],
-                    course['course_id'] 
+                    c_id  
                     )
             tile.connect('button-press-event', self.tile_clicked)
             tile.connect("drag-data-get", self.on_drag_data_get)

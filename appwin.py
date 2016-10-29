@@ -156,7 +156,7 @@ class AppWindow(Gtk.Window):
                 return 0 
         
         self.filename = None 
-        self.course_manager.courses = []
+        self.course_manager.courses = {}
         if self.course_manager.store:
             self.course_manager.store.clear()
         self.course_manager.saved = True
@@ -192,7 +192,7 @@ class AppWindow(Gtk.Window):
                 self.filename = open_dialog.get_filename()
                 self.course_manager.saved = True 
                 
-                self.course_manager.courses = []
+                self.course_manager.courses = {}
                 if self.course_manager.store:
                     self.course_manager.store.clear()
 

@@ -120,8 +120,6 @@ class CourseChanger():
 
     def load_entry(self, course):
         """Load course information into the interface."""
-        self.course_id = course['course_id']
-
         self.title.set_text(course['title'])
         self.catalog.set_text(course['catalog'])
         self.credits.set_value(course['credits'])
@@ -168,8 +166,7 @@ class CourseChanger():
                     self.quarter.get_active_text()
                 ],
                 self.course_type.get_active_text(),
-                ge_text, 
-                self.course_id
+                ge_text 
                 )
         self.course_id = None
         return new_course 

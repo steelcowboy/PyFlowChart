@@ -62,82 +62,54 @@ class CourseManager():
             except ValueError: 
                 return 0
 
-            file_courses = courses
-            course_id = 0
-            course_ids = []
+        file_courses = courses
+        course_id = 0
+        course_ids = []
 
-            ## old behavior
-            # for file_course in file_courses['courses']: 
-                # if 'course_id' not in file_course:
-                    # file_course['course_id'] = course_id
-                    # course_id = course_id + 1
-                    # course_ids.append(course_id)
+        tmp_cs = file_courses['courses'] 
+        tmp_cs = {int(x): tmp_cs[x] for x in tmp_cs}
+        
+        if isinstance(tmp_cs, list):
+            cs = {}
+            for course_object in tmp_cs:
+                object_id = course_object.pop('course_id')
+                cs[object_id] = course_object
+        elif isinstance(tmp_cs, dict): 
+            cs = tmp_cs 
+        else:
+            raise Exception("Invalid course object!")
+            return 0
 
-                # else:
-                    # course_ids.append(file_course['course_id'])
-                
-                # if isinstance(file_course['prereqs'], str):
-                    # file_course['prereqs'] = [x.strip() for x in 
-                        # file_course['prereqs'].split(',')]
+        for course_id, course in cs.items():
+            course_id = int(course_id)
+            if isinstance(course['prereqs'], str):
+                course['prereqs'] = [x.strip() for x in 
+                    course['prereqs'].split(',')]
 
-                # if 'ge_type' not in file_course:
-                    # file_course['ge_type'] = None
+            if 'ge_type' not in course:
+                course['ge_type'] = None
 
-                # self.courses.append(file_course)
-                # if self.store:
-                    # self.store.append([
-                        # file_course['catalog'], 
-                        # str(
-                            # str(file_course['time'][0]) + 
-                            # ', ' + 
-                            # file_course['time'][1]
-                            # ), 
-                        # file_course['credits'], 
-                        # file_course['course_type']
-                    # ])
-            
-            tmp_cs = file_courses['courses'] 
-            
-            if isinstance(tmp_cs, list):
-                cs = {}
-                for course_object in tmp_cs:
-                    object_id = course_object.pop('course_id')
-                    cs[object_id] = course_object
-            elif isinstance(tmp_cs, dict): 
-                cs = tmp_cs 
-            else:
-                raise Exception("Invalid course object!")
-                return 0
+            self.courses[course_id] = course
 
-            for course_id, course in cs.items(): 
-                if isinstance(course['prereqs'], str):
-                    course['prereqs'] = [x.strip() for x in 
-                        course['prereqs'].split(',')]
+            if self.store:
+                self.store.append([
+                    cs[course_id]['catalog'], 
+                    str(
+                        str(cs[course_id]['time'][0]) + 
+                        ', ' + 
+                        cs[course_id]['time'][1]
+                        ), 
+                    cs[course_id]['credits'], 
+                    cs[course_id]['course_type'],
+                    course_id
+                ])
+            course_ids.append(course_id)
 
-                if 'ge_type' not in course:
-                    course['ge_type'] = None
-
-                self.courses[course_id] = course
-
-                if self.store:
-                    self.store.append([
-                        cs[course_id]['catalog'], 
-                        str(
-                            str(cs[course_id]['time'][0]) + 
-                            ', ' + 
-                            cs[course_id]['time'][1]
-                            ), 
-                        cs[course_id]['credits'], 
-                        cs[course_id]['course_type'],
-                        course_id
-                    ])
-                course_ids.append(course_id)
-
-            self.last_course_id = max(course_ids)
-            return 1
+        self.last_course_id = max(course_ids)
+        return 1
 
 
-    def edit_entry(self, chosen_course, selection=None):
+    def edit_entry(self, chosen_course):
         """Edit existing entry.
         
         Arguments:
@@ -146,21 +118,25 @@ class CourseManager():
                 the current selection in the treeview that is to be edited.
                                            
         """
-        if selection:
-            model, treeiter = selection.get_selected()
-            self.store[treeiter] = [
-                    chosen_course.catalog, 
-                    str(
-                        chosen_course.time[0] + 
-                        ', ' + 
-                        chosen_course.time[1]
-                        ), 
-                    chosen_course.credits, 
-                    chosen_course.course_type
-                    ]
+        c_id = chosen_course.course_id 
+
+        for row in self.store:
+            if row[4] == c_id:
+                course_iter = row.iter 
+
+        self.store[course_iter] = [
+                chosen_course.catalog, 
+                str(
+                    chosen_course.time[0] + 
+                    ', ' + 
+                    chosen_course.time[1]
+                    ), 
+                chosen_course.credits, 
+                chosen_course.course_type,
+                c_id
+                ]
 
         # Course ID from the arguments
-        c_id = chosen_course.course_id 
         self.courses[c_id]['title']       = chosen_course.title
         self.courses[c_id]['catalog']     = chosen_course.catalog
         self.courses[c_id]['credits']     = chosen_course.credits
@@ -172,30 +148,19 @@ class CourseManager():
         self.saved = False
         return chosen_course.course_id   
 
-
-    def delete_entry(self, chosen_course=None, selection=None): 
+    def delete_entry(self, selected_id): 
         """Delete existing entry.
         
-        Arguments (optional):
-            chosen_course (Course): The course to delete.
-            selection (Gtk.TreeSelection): The selection to delete. 
+        Arguments:
+            selected_id (int): The id of the course to delete.
         """
-### THIS MAY BE BUGGY ###
-        if selection:
-            # I think the documentation for get_seleceded_rows is 
-            # incorrect because index 0 is a ListStore...
-            path = selection.get_selected_rows()[1][0]
-            index = path.get_indices()[0]
-            model, treeiter = selection.get_selected()
-            print(self.store[treeiter])
-            
-            course = self.courses[index]
+        for row in self.store:
+            if row[4] == selected_id:
+                self.store.remove(row.iter)
 
-            self.store.remove(treeiter)
-            del self.courses[index]
+        self.courses.pop(selected_id)
         
-        if chosen_course:
-            self.courses.pop(chosen_course.course_id)
+        self.saved = False
 
     def add_entry(self, course):
         """Add a course to the CourseManager's list."""

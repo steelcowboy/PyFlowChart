@@ -22,9 +22,9 @@ and under heavy development.
 - ~~Drag and drop in the viewer~~ 10/21/2016 
 - ~~More dynamic interface~~ *Can now show and hide quarters* 10/21/2016
   - Allow adding special quarters (AP, Q+)
+- ~~Combine chartbuilder and chartviewer~~ 10/31/2016
 - Deal with case where user adds a course before its prereqs have been fulfilled
 - Allow copy/pasting of courses
-- Combine chartbuilder and chartviewer
 - Add some help pages 
 - Package PyFlowChart for all three major operating systems, including multiple Linux distributions
 

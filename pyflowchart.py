@@ -5,6 +5,7 @@ from gi.repository import Gtk, Gdk
 from coursetools.tile import courseTile, tileColumn
 from appwin import AppWindow
 from interface.viewergrid import courseGrid
+from interface.header_bar import ControlBar 
 from coursetools.changer import CourseChanger
 
 TARGET_ENTRY_TEXT = 0
@@ -30,7 +31,10 @@ class FlowChartWindow(AppWindow):
     def setup_window(self):
         self.action_builder = Gtk.Builder.new_from_file('./interface/glade/modify_interface.glade')
         self.action_builder.connect_signals(self.events)
-        self.menubar = self.action_builder.get_object('menubar')
+        #self.menubar = self.action_builder.get_object('menubar')
+        self.menubar = ControlBar() 
+        self.set_titlebar(self.menubar)
+
         self.editmenu = self.action_builder.get_object('edit_menu')
         self.addmenu = self.action_builder.get_object('add_menu')
 
@@ -262,6 +266,15 @@ class FlowChartWindow(AppWindow):
 
         self.course_manager.edit_entry(entry)
 
+        if self.mode == 'builder':
+            for key, column in self.columns.items():
+                for tile in column:
+                    if tile.course_id == self.selected_id:
+                        tile.destroy()
+                        break
+        elif self.mode == 'viewer':
+            self.selected_tile.destroy()
+
         tile = self.make_tile(entry)
 
         time = self.column_template.format(
@@ -271,14 +284,6 @@ class FlowChartWindow(AppWindow):
 
         self.columns[time].pack_start(tile, True, True, 0)
 
-        if self.mode == 'builder':
-            for key, column in self.columns.items():
-                for tile in column:
-                    if tile.course_id == self.selected_id:
-                        tile.destroy()
-                        break
-        elif self.mode == 'viewer':
-            self.selected_tile.destroy()
 
     def delete_entry(self, button):
         self.course_manager.delete_entry(self.selected_id)
@@ -301,37 +306,95 @@ class FlowChartWindow(AppWindow):
 
     def on_drag_data_received(self, widget, drag_context, x,y, data,info, time):
         tile_id = int(data.get_text())
-        for course in self.course_manager.courses:
-            if course['course_id'] == tile_id:
-                time = [widget.year, widget.quarter]
-                tile = courseTile(
-                        course['title'],       
-                        course['catalog'],    
-                        course['credits'],    
-                        course['prereqs'],
-                        time,    
-                        course['course_type'],  
-                        course['ge_type'],
-                        course['course_id']
-                        )
-                
-                tile.connect('button-press-event', self.tile_clicked)
-                tile.connect("drag-data-get", self.on_drag_data_get)
-                
-                # Drag and drop
-                tile.drag_source_set_target_list(None)
-                tile.drag_source_add_text_targets()
+        course = self.course_manager.courses[tile_id]
 
-                time = self.column_template.format(
-                        time[0], 
-                        time[1].lower()
-                        )
+        time = [widget.year, widget.quarter]
+        tile = courseTile(
+                course['title'],       
+                course['catalog'],    
+                course['credits'],    
+                course['prereqs'],
+                time,    
+                course['course_type'],  
+                course['ge_type'],
+                tile_id
+                )
+        
+        tile.connect('button-press-event', self.tile_clicked)
+        tile.connect("drag-data-get", self.on_drag_data_get)
+        
+        # Drag and drop
+        tile.drag_source_set_target_list(None)
+        tile.drag_source_add_text_targets()
 
-                self.columns[time].pack_start(tile, True, True, 0)
+        time = self.column_template.format(
+                time[0], 
+                time[1].lower()
+                )
 
-                self.course_manager.edit_entry(chosen_course=tile)
+        self.columns[time].pack_start(tile, True, True, 0)
+
+        self.course_manager.edit_entry(chosen_course=tile)
 
 if __name__ == "__main__":
+    css = b"""
+.major {
+    background-color: #FFFF99;
+}
+.completed .major {
+    background-color: #ffffe5;
+}
+
+
+.support {
+    background-color: #FFCC99;
+}
+.completed .support {
+    background-color: #fff2e5;
+}
+
+
+.concentration {
+    background-color: #FF99CC;
+}
+.completed .concentration {
+    background-color: #ffe5f2;
+}
+
+
+.general-ed {
+    background-color: #CCFFCC;
+}
+.completed .general-ed {
+    background-color: #e5ffe5;
+}
+
+
+.free-elective {
+    background-color: #CCFFFF;
+}
+.completed .free-elective {
+    background-color: #f2ffff;
+}
+
+
+.minor {
+    background-color: #CC99FF;
+}
+.completed .minor {
+    background-color: #f2e5ff;
+}
+
+
+.ge-text {
+    color: #00366C;
+}
+
+.prereq-text {
+    color: #047440;
+}
+"""
+
     provider = Gtk.CssProvider()
     provider.load_from_path('./interface/chart_tile.css')
     Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),

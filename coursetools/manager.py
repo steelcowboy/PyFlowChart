@@ -67,7 +67,6 @@ class CourseManager():
         course_ids = []
 
         tmp_cs = file_courses['courses'] 
-        tmp_cs = {int(x): tmp_cs[x] for x in tmp_cs}
         
         if isinstance(tmp_cs, list):
             cs = {}
@@ -93,14 +92,14 @@ class CourseManager():
 
             if self.store:
                 self.store.append([
-                    cs[course_id]['catalog'], 
+                    course['catalog'], 
                     str(
-                        str(cs[course_id]['time'][0]) + 
+                        str(course['time'][0]) + 
                         ', ' + 
-                        cs[course_id]['time'][1]
+                        course['time'][1]
                         ), 
-                    cs[course_id]['credits'], 
-                    cs[course_id]['course_type'],
+                    course['credits'], 
+                    course['course_type'],
                     course_id
                 ])
             course_ids.append(course_id)
@@ -127,7 +126,7 @@ class CourseManager():
         self.store[course_iter] = [
                 chosen_course.catalog, 
                 str(
-                    chosen_course.time[0] + 
+                    str(chosen_course.time[0]) + 
                     ', ' + 
                     chosen_course.time[1]
                     ), 

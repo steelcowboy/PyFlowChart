@@ -115,11 +115,11 @@ class yearGrid(Gtk.Grid):
         self.selected_quarter = None
 
         if self.hidden[quarter]:
-            for x in range(3):
+            for x in [0,2]:
                 self.get_child_at(quarter,x).show()
             self.hidden[quarter] = False 
         else:
-            for x in range(3):
+            for x in [0,2]:
                 self.get_child_at(quarter,x).hide()
             self.hidden[quarter] = True
         return True

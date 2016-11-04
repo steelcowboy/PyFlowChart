@@ -164,21 +164,24 @@ class CourseManager():
     def add_entry(self, course):
         """Add a course to the CourseManager's list."""
         self.saved = False
-        if not course.course_id:
-            course.course_id = self.last_course_id
+        course = course.export() 
+        c_id = course.pop('course_id') 
+        
+        if not c_id:
+            c_id = self.last_course_id
 
-        self.courses.append(course.export())
+        self.courses[c_id] = course 
         if self.store:
             self.store.append([
-                course.catalog, 
+                course['catalog'], 
                 str(
-                    course.time[0] + 
+                    course['time'][0] + 
                     ', ' + 
-                    course.time[1]
+                    course['time'][1]
                 ), 
-                course.credits,
-                course.course_type, 
-                self.last_course_id 
+                course['credits'],
+                course['course_type'], 
+                c_id 
             ])
 
         self.last_course_id = self.last_course_id + 1

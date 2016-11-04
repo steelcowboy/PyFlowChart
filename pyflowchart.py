@@ -31,9 +31,9 @@ class FlowChartWindow(AppWindow):
     def setup_window(self):
         self.action_builder = Gtk.Builder.new_from_file('./interface/glade/modify_interface.glade')
         self.action_builder.connect_signals(self.events)
-        #self.menubar = self.action_builder.get_object('menubar')
-        self.menubar = ControlBar() 
-        self.set_titlebar(self.menubar)
+        self.menubar = self.action_builder.get_object('menubar')
+        # self.menubar = ControlBar() 
+        # self.set_titlebar(self.menubar)
 
         self.editmenu = self.action_builder.get_object('edit_menu')
         self.addmenu = self.action_builder.get_object('add_menu')
@@ -242,6 +242,7 @@ class FlowChartWindow(AppWindow):
         elif self.mode == 'viewer':
             self.course_changer.course_id = new_id
             entry = self.create_add_edit_dialog()
+            entry.course_id = new_id
             if not entry:
                 return False
         else:

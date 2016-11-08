@@ -1,4 +1,5 @@
 __pycache__
+*.pyc
 
 # These two may be implemented in the future
 program_information.py

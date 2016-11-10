@@ -31,9 +31,11 @@ class FlowChartWindow(AppWindow):
     def setup_window(self):
         self.action_builder = Gtk.Builder.new_from_file('./interface/glade/modify_interface.glade')
         self.action_builder.connect_signals(self.events)
-        self.menubar = self.action_builder.get_object('menubar')
-        # self.menubar = ControlBar() 
-        # self.set_titlebar(self.menubar)
+        # self.menubar = self.action_builder.get_object('menubar')
+        self.menubar = ControlBar() 
+        self.set_titlebar(self.menubar)
+        
+        self.connect_control_buttons()
 
         self.editmenu = self.action_builder.get_object('edit_menu')
         self.addmenu = self.action_builder.get_object('add_menu')
@@ -48,6 +50,17 @@ class FlowChartWindow(AppWindow):
         main_grid.attach(self.interface_switcher, 0, 1, 1, 1)
         self.setup_viewer()
         self.setup_builder()
+    
+    def connect_control_buttons(self):
+        self.menubar.new_button.connect('activate', self.new_file)
+        self.menubar.open_button.connect('activate', self.open_file)
+        self.menubar.viewer_button.connect('activate', self.change_to_viewer)
+        self.menubar.builder_button.connect('activate', self.change_to_builder)
+        self.menubar.save_button.connect('activate', self.save_entry)
+        self.menubar.save_as_button.connect('activate', self.save_as)
+        self.menubar.preferences_button.connect('activate', self.preferences)
+        self.menubar.about_button.connect('activate', self.about)
+        #self.menubar.help_button.connect('activate', self.save_as)
 
     def setup_viewer(self):
         viewer_grid = Gtk.Grid()

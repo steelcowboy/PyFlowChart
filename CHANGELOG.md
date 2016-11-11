@@ -1,5 +1,7 @@
 # 0.9 ()
 - Unified ChartBuilder and ChartViewer
+- Made new, custom header bar
+- Prompts for confirmation when trying to delete a course
 
 # 0.8 (10-22-2016)
 - Made editing a course more efficient

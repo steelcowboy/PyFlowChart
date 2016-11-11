@@ -5,7 +5,8 @@ from gi.repository import Gtk, Gdk
 from coursetools.tile import courseTile, tileColumn
 from appwin import AppWindow
 from interface.viewergrid import courseGrid
-from interface.header_bar import ControlBar 
+from interface.control_bar import controlBar 
+from interface.menus import dataMenu, addMenu
 from coursetools.changer import CourseChanger
 
 TARGET_ENTRY_TEXT = 0
@@ -32,14 +33,18 @@ class FlowChartWindow(AppWindow):
         self.action_builder = Gtk.Builder.new_from_file('./interface/glade/modify_interface.glade')
         self.action_builder.connect_signals(self.events)
         # self.menubar = self.action_builder.get_object('menubar')
-        self.menubar = ControlBar() 
+        self.menubar = controlBar() 
         self.set_titlebar(self.menubar)
         
         self.connect_control_buttons()
 
-        self.editmenu = self.action_builder.get_object('edit_menu')
-        self.addmenu = self.action_builder.get_object('add_menu')
-
+        #self.edit_menu = self.action_builder.get_object('edit_menu')
+        self.edit_menu = dataMenu() 
+        # self.add_menu = self.action_builder.get_object('add_menu')
+        self.add_menu = addMenu()
+        
+        self.connect_menu_buttons()
+    
         main_grid = Gtk.Grid()
         self.add(main_grid)
 
@@ -61,6 +66,14 @@ class FlowChartWindow(AppWindow):
         self.menubar.preferences_button.connect('activate', self.preferences)
         self.menubar.about_button.connect('activate', self.about)
         #self.menubar.help_button.connect('activate', self.save_as)
+    
+    def connect_menu_buttons(self):
+        self.edit_menu.edit_button.connect('activate', self.edit_entry)
+        #self.edit_menu.copy_button.connect('activate', self.copy_entry)
+        self.edit_menu.delete_button.connect('activate', self.delete_entry)
+
+        self.add_menu.add_button.connect('activate', self.add_entry)
+        #self.add_menu.paste_button.connect('activate', self.paste_button)
 
     def setup_viewer(self):
         viewer_grid = Gtk.Grid()
@@ -150,11 +163,11 @@ class FlowChartWindow(AppWindow):
             self.selected_id = course_id  
             self.selected_course = self.course_manager.courses[course_id]
 
-            self.editmenu.popup(None, None, None, None, event.button, event.time)
+            self.edit_menu.popup(None, None, None, None, event.button, event.time)
 
     def tile_clicked(self, widget, event):
         if event.button == 3:
-            self.editmenu.popup(None, None, None, None, event.button, event.time)
+            self.edit_menu.popup(None, None, None, None, event.button, event.time)
             self.selected_id = widget.course_id
             self.selected_tile = widget
             self.course_changer.edit_year = widget.time[0]
@@ -163,7 +176,7 @@ class FlowChartWindow(AppWindow):
     
     def box_clicked(self, widget, event):
         if event.button == 3:
-            self.addmenu.popup(None, None, None, None, event.button, event.time)
+            self.add_menu.popup(None, None, None, None, event.button, event.time)
             self.course_changer.add_year = widget.year
             self.course_changer.add_quarter = widget.quarter
         return True

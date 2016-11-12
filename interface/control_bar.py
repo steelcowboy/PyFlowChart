@@ -2,6 +2,8 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
+ICONSIZE = Gtk.IconSize.SMALL_TOOLBAR 
+
 class controlBar(Gtk.HeaderBar):
     def __init__(self):
         Gtk.HeaderBar.__init__(self)
@@ -11,11 +13,11 @@ class controlBar(Gtk.HeaderBar):
         
         self.info_box = Gtk.Box(spacing=10,orientation=Gtk.Orientation.HORIZONTAL)
 
-        self.file_button = Gtk.Button.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.LARGE_TOOLBAR)
+        self.file_button = Gtk.Button.new_from_icon_name("open-menu-symbolic", ICONSIZE)
         
         
-        self.settings_button = Gtk.Button.new_from_icon_name("preferences-system", Gtk.IconSize.LARGE_TOOLBAR)
-        self.help_button = Gtk.Button.new_from_icon_name("help-about", Gtk.IconSize.LARGE_TOOLBAR)
+        self.settings_button = Gtk.Button.new_from_icon_name("preferences-system", ICONSIZE)
+        self.help_button = Gtk.Button.new_from_icon_name("help-about", ICONSIZE)
         
         self.main_menu = self.init_main_menu()
         self.settings_menu = self.init_settings_menu()

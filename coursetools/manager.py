@@ -170,13 +170,18 @@ class CourseManager():
         
         if not c_id:
             c_id = self.last_course_id
+        elif c_id in self.courses:
+            c_id = self.last_course_id + 1
+            self.last_course_id = self.last_course_id + 1
+
+        print("CourseManager says: {}".format(c_id))
 
         self.courses[c_id] = course 
         if self.store:
             self.store.append([
                 course['catalog'], 
                 str(
-                    course['time'][0] + 
+                    str(course['time'][0]) + 
                     ', ' + 
                     course['time'][1]
                 ), 
@@ -187,8 +192,17 @@ class CourseManager():
 
         self.last_course_id = self.last_course_id + 1
     
-    def get_course(self, course_id):
-        return self.courses[course_id]
+    def get_course(self, c_id):
+        course = self.courses[c_id] 
+        return Course(
+                course['title'],
+                course['catalog'],
+                course['credits'],
+                course['prereqs'],
+                course['time'],
+                course['course_type'],
+                course['ge_type'],
+                c_id)
 
     def save(self, filename):
         """Save all courses to the given filename."""

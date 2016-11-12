@@ -289,21 +289,25 @@ class FlowChartWindow(AppWindow):
         print("Going to copy course {}".format(self.copied_id))
 
     def paste_entry(self, button):
-        entry = self.course_manager.courses[self.copied_id] 
+        copy = self.course_manager.get_course(self.copied_id) 
+        copy.course_id = self.course_manager.last_course_id + 1
+        self.course_manager.last_course_id = self.course_manager.last_course_id + 1
+        print("PyFlowChart says: {}".format(copy.course_id))
+
         year = self.course_changer.add_year
         quarter = self.course_changer.add_quarter
-        entry['time'] = [year, quarter]
+        copy.time = [year, quarter]
 
-        tile = self.make_tile(entry)
+        tile = self.make_tile(copy)
 
         time = self.column_template.format(
-                entry.time[0], 
-                entry.time[1].lower()
+                copy.time[0], 
+                copy.time[1].lower()
                 )
 
-        self.course_manager.add_entry(entry)
+        self.course_manager.add_entry(copy) 
         self.columns[time].pack_start(tile, True, True, 0)
-
+        
     def edit_entry(self, button):
         """Does not connect builder and viewer well"""
         entry = self.create_add_edit_dialog(self.course_manager.courses[self.selected_id])

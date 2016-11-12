@@ -25,7 +25,7 @@ class FlowChartWindow(AppWindow):
         self.column_template = "year_{}_{}"
         self.quarter_map = dict(enumerate(["fall", "winter", "spring", "summer"]))
         self.mode = 'viewer'
-        
+
         self.setup_window()
         self.connect('delete-event', self.quit)
     
@@ -69,11 +69,11 @@ class FlowChartWindow(AppWindow):
     
     def connect_menu_buttons(self):
         self.edit_menu.edit_button.connect('activate', self.edit_entry)
-        #self.edit_menu.copy_button.connect('activate', self.copy_entry)
+        self.edit_menu.copy_button.connect('activate', self.copy_entry)
         self.edit_menu.delete_button.connect('activate', self.delete_entry)
 
         self.add_menu.add_button.connect('activate', self.add_entry)
-        #self.add_menu.paste_button.connect('activate', self.paste_button)
+        self.add_menu.paste_button.connect('activate', self.paste_entry)
 
     def setup_viewer(self):
         viewer_grid = Gtk.Grid()
@@ -282,6 +282,26 @@ class FlowChartWindow(AppWindow):
                 entry.time[1].lower()
                 )
 
+        self.columns[time].pack_start(tile, True, True, 0)
+    
+    def copy_entry(self, button):
+        self.copied_id = self.selected_id 
+        print("Going to copy course {}".format(self.copied_id))
+
+    def paste_entry(self, button):
+        entry = self.course_manager.courses[self.copied_id] 
+        year = self.course_changer.add_year
+        quarter = self.course_changer.add_quarter
+        entry['time'] = [year, quarter]
+
+        tile = self.make_tile(entry)
+
+        time = self.column_template.format(
+                entry.time[0], 
+                entry.time[1].lower()
+                )
+
+        self.course_manager.add_entry(entry)
         self.columns[time].pack_start(tile, True, True, 0)
 
     def edit_entry(self, button):

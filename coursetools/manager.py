@@ -157,9 +157,10 @@ class CourseManager():
             if row[4] == selected_id:
                 self.store.remove(row.iter)
 
-        self.courses.pop(selected_id)
+        entry = self.courses.pop(selected_id)
         
         self.saved = False
+        return entry
 
     def add_entry(self, course):
         """Add a course to the CourseManager's list."""
@@ -185,6 +186,9 @@ class CourseManager():
             ])
 
         self.last_course_id = self.last_course_id + 1
+    
+    def get_course(self, course_id):
+        return self.courses[course_id]
 
     def save(self, filename):
         """Save all courses to the given filename."""

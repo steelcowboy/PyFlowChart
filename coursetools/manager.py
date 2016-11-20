@@ -174,8 +174,6 @@ class CourseManager():
             c_id = self.last_course_id + 1
             self.last_course_id = self.last_course_id + 1
 
-        print("CourseManager says: {}".format(c_id))
-
         self.courses[c_id] = course 
         if self.store:
             self.store.append([

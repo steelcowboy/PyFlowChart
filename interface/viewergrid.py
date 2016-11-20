@@ -188,7 +188,6 @@ class courseGrid(Gtk.Grid):
             selected_year = int((self.child_get_property(widget, 'left-attach')-2)/3+1)
             quarter_menu = self.year_map[selected_year].create_quarter_menu()
             quarter_menu.popup(None, None, None, None, event.button, event.time)
-            #print(self.selected_year) 
         return True
 
 

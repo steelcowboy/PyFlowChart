@@ -402,7 +402,7 @@ class FlowChartWindow(AppWindow):
 
         self.course_manager.edit_entry(chosen_course=tile)
 
-if __name__ == "__main__":
+def main():
     css = b"""
 .major {
     background-color: #FFFF99;
@@ -472,3 +472,6 @@ if __name__ == "__main__":
     window.show_all()
     window.maximize()
     Gtk.main()
+
+if __name__ == "__main__":
+    main()

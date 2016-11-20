@@ -1,4 +1,4 @@
-# 0.9 ()
+# 0.9 (11-20-2016)
 - Unified ChartBuilder and ChartViewer
 - Made new, custom header bar
 - Prompts for confirmation when trying to delete a course

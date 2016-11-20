@@ -4,7 +4,6 @@
 - Prompts for confirmation when trying to delete a course
 - Copy/Paste functionality for courses
 - Eliminated UI Builder dependence
-- Made changing course tiles more efficient
 
 # 0.8 (10-22-2016)
 - Made editing a course more efficient

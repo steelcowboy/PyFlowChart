@@ -3,11 +3,12 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
 from coursetools.tile import courseTile, tileColumn
+from coursetools.course import Course
 from appwin import AppWindow
 from interface.viewergrid import courseGrid
 from interface.control_bar import controlBar 
 from interface.menus import dataMenu, addMenu
-from coursetools.changer import CourseChanger
+from interface.modify_interface import ModifyGrid
 
 TARGET_ENTRY_TEXT = 0
 COLUMN_TEXT = 0
@@ -30,17 +31,12 @@ class FlowChartWindow(AppWindow):
         self.connect('delete-event', self.quit)
     
     def setup_window(self):
-        self.action_builder = Gtk.Builder.new_from_file('./interface/glade/modify_interface.glade')
-        self.action_builder.connect_signals(self.events)
-        # self.menubar = self.action_builder.get_object('menubar')
         self.menubar = controlBar() 
         self.set_titlebar(self.menubar)
         
         self.connect_control_buttons()
 
-        #self.edit_menu = self.action_builder.get_object('edit_menu')
         self.edit_menu = dataMenu() 
-        # self.add_menu = self.action_builder.get_object('add_menu')
         self.add_menu = addMenu()
         
         self.connect_menu_buttons()
@@ -113,16 +109,14 @@ class FlowChartWindow(AppWindow):
         scroll_window.set_vexpand(True)
         grid.attach(scroll_window, 0, 0, 1, 1)
         
-        self.add_changer = CourseChanger()
-        self.add_changer.init_objects(self.action_builder)
-        modifygrid = self.add_changer.grid
+        self.builder_grid = ModifyGrid() 
 
         add_button = Gtk.Button.new_with_label("Add")
         add_button.connect('clicked', self.add_entry)
         add_button.set_margin_top(5)
-        modifygrid.attach(add_button, 1, 8, 2, 1)
+        self.builder_grid.attach(add_button, 1, 8, 2, 1)
 
-        grid.attach(modifygrid, 1, 0, 1, 1)
+        grid.attach(self.builder_grid, 1, 0, 1, 1)
         
         self.course_manager.store = Gtk.ListStore(str, str, int, str, int)
 
@@ -170,15 +164,15 @@ class FlowChartWindow(AppWindow):
             self.edit_menu.popup(None, None, None, None, event.button, event.time)
             self.selected_id = widget.course_id
             self.selected_tile = widget
-            self.course_changer.edit_year = widget.time[0]
-            self.course_changer.edit_quarter = widget.time[1]
+            self.modify_grid.edit_year = widget.time[0]
+            self.modify_grid.edit_quarter = widget.time[1]
         return True 
     
     def box_clicked(self, widget, event):
         if event.button == 3:
             self.add_menu.popup(None, None, None, None, event.button, event.time)
-            self.course_changer.add_year = widget.year
-            self.course_changer.add_quarter = widget.quarter
+            self.modify_grid.add_year = widget.year
+            self.modify_grid.add_quarter = widget.quarter
         return True
 
     def new_file(self, widget):
@@ -235,6 +229,19 @@ class FlowChartWindow(AppWindow):
                     time = self.column_template.format(year, dict(self.quarter_map)[x])
                     self.columns[time].get_style_context().add_class('completed')
     
+    def make_course(self, course_dict):
+        course = Course(
+                course_dict['title'],
+                course_dict['catalog'],
+                course_dict['credits'],
+                course_dict['prereqs'],
+                course_dict['time'],
+                course_dict['course_type'],
+                course_dict['ge_type'],
+                course_dict['course_id']
+                )
+        return course
+
     def make_tile(self, course):
         tile = courseTile(
                 course.title,       
@@ -260,19 +267,21 @@ class FlowChartWindow(AppWindow):
         new_id = self.course_manager.last_course_id + 1
 
         if self.mode == 'builder':
-            self.add_changer.course_id = new_id
-            entry = self.add_changer.get_course()
-            entry.course_id = new_id
+            self.builder_grid.course_id = new_id
+            entry = self.builder_grid.get_entry_values()
+            entry['course_id'] = new_id
 
-            self.add_changer.clean_form()
+            self.builder_grid.clean_form()
         elif self.mode == 'viewer':
-            self.course_changer.course_id = new_id
+            self.modify_grid.course_id = new_id
             entry = self.create_add_edit_dialog()
-            entry.course_id = new_id
+            entry['course_id'] = new_id
             if not entry:
                 return False
         else:
             raise Exception('Unknown course mode: {}'.format(self.mode))
+
+        entry = self.make_course(entry)
 
         self.course_manager.add_entry(entry)
         tile = self.make_tile(entry)
@@ -286,16 +295,14 @@ class FlowChartWindow(AppWindow):
     
     def copy_entry(self, button):
         self.copied_id = self.selected_id 
-        print("Going to copy course {}".format(self.copied_id))
 
     def paste_entry(self, button):
         copy = self.course_manager.get_course(self.copied_id) 
         copy.course_id = self.course_manager.last_course_id + 1
         self.course_manager.last_course_id = self.course_manager.last_course_id + 1
-        print("PyFlowChart says: {}".format(copy.course_id))
 
-        year = self.course_changer.add_year
-        quarter = self.course_changer.add_quarter
+        year = self.modify_grid.add_year
+        quarter = self.modify_grid.add_quarter
         copy.time = [year, quarter]
 
         tile = self.make_tile(copy)
@@ -313,7 +320,8 @@ class FlowChartWindow(AppWindow):
         entry = self.create_add_edit_dialog(self.course_manager.courses[self.selected_id])
         if not entry:
             return False 
-        entry.course_id = self.selected_id 
+        entry['course_id'] = self.selected_id 
+        entry = self.make_course(entry)
 
         self.course_manager.edit_entry(entry)
 
@@ -337,6 +345,13 @@ class FlowChartWindow(AppWindow):
 
 
     def delete_entry(self, button):
+        dialog = self.create_delete_confirm_dialog()
+        confirm_response = dialog.run()
+        dialog.destroy()
+
+        if confirm_response == Gtk.ResponseType.CANCEL: 
+            return  
+
         self.course_manager.delete_entry(self.selected_id)
 
         if self.mode == 'builder':
@@ -447,7 +462,7 @@ if __name__ == "__main__":
 """
 
     provider = Gtk.CssProvider()
-    provider.load_from_path('./interface/chart_tile.css')
+    provider.load_from_data(css)
     Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
             provider,  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 

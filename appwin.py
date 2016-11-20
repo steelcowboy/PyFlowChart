@@ -5,7 +5,7 @@ from gi.repository import Gtk
 from interface.about import about_dialog
 from interface.preferences import preferences_dialog 
 from coursetools.manager import CourseManager
-from coursetools.changer import CourseChanger
+from interface.modify_interface import ModifyGrid 
 
 class AppWindow(Gtk.Window):
     """A class to set up a FlowChart app window.
@@ -19,7 +19,6 @@ class AppWindow(Gtk.Window):
     Attributes:
         filename (str): a filename associated with the session.
         course_manager (CourseManager): the CourseManager instance associated with the session.
-        course_changer (CourseChanger): the CourseChanger instance associated with the session.
     """
     def __init__(self, title): 
         Gtk.Window.__init__(self, title=title)
@@ -31,23 +30,8 @@ class AppWindow(Gtk.Window):
         self.chart_dir = os.path.expanduser("~/.config/PyFlowChart/charts")
         self.check_config()
 
-        self.events = {
-                'onNewPress'     : self.new_file,
-                'onOpenPress'    : self.open_file,
-                'onAddPress'     : self.add_entry,
-                'onEditPress'    : self.edit_entry,
-                'onDeletePress'  : self.delete_entry,
-                'onSavePress'    : self.save_entry,
-                'onSaveAsPress'  : self.save_as,
-                'onQuitPress'    : self.quit, 
-                'onAboutPress'   : self.about,
-                'onPrefPress'    : self.preferences,
-                'onViewerPress'  : self.change_to_viewer,
-                'onBuilderPress' : self.change_to_builder
-                }
-
         self.course_manager = CourseManager()
-        self.course_changer = CourseChanger()
+        self.modify_grid = ModifyGrid()
         self.about_dialog = about_dialog(self)
         # Preferences dialog should work like this, to be implemented
         #self.preferences_dialog = preferences_dialog(self)
@@ -67,12 +51,19 @@ class AppWindow(Gtk.Window):
                         }
                 conf.write(json.dumps(config, indent=4))
 
-    def create_confirm_dialog(self):
+    def create_exit_confirm_dialog(self):
         """Returns a dialog object to prompt the user if the flowchart is unsaved."""
         return Gtk.MessageDialog(self, 0, 
                 Gtk.MessageType.WARNING, 
                 Gtk.ButtonsType.OK_CANCEL, 
                 "You have unsaved changes! Are you sure you wish to proceed?")
+
+    def create_delete_confirm_dialog(self):
+        """Returns a dialog object to prompt the user if the flowchart is unsaved."""
+        return Gtk.MessageDialog(self, 0, 
+                Gtk.MessageType.WARNING, 
+                Gtk.ButtonsType.OK_CANCEL, 
+                "Are you sure you wish to delete this course?")
 
     def create_save_as_dialog(self):
         """Returns a Save As dialog object."""
@@ -91,9 +82,6 @@ class AppWindow(Gtk.Window):
         Returns:
             New course if successful. Nothing otherwise. 
         """
-        builder = Gtk.Builder.new_from_file('./interface/glade/modify_interface.glade')
-        self.course_changer.init_objects(builder)
-    
         if course:
             function = "Edit"
         else:
@@ -102,29 +90,29 @@ class AppWindow(Gtk.Window):
         new_course = None
         modify_dialog = Gtk.Dialog(function, self, 0)
         box = modify_dialog.get_content_area()
-        grid = self.course_changer.grid 
-        box.add(grid)
+        box.add(self.modify_grid)
         
-        prereq_box = self.course_changer.prereq_box  
-        add_button_box = self.course_changer.add_button_box 
+        prereq_box = self.modify_grid.prereq_box  
 
-        if self.course_changer.add_year:
-            builder.get_object('year').set_active(
-                    int(self.course_changer.add_year)-1)
-            builder.get_object('quarter').set_active(
-                    self.course_changer.quarter_map[self.course_changer.add_quarter])
+        if self.modify_grid.add_year:
+            self.modify_grid.year_selector.set_active(int(self.modify_grid.add_year)-1)
+            self.modify_grid.quarter_selector.set_active(
+                    self.modify_grid.quarter_map[self.modify_grid.add_quarter])
 
         if course:
             modify_dialog.add_button('_Edit', Gtk.ResponseType.OK)
-            self.course_changer.load_entry(course)
+            self.modify_grid.load_entry(course)
 
         else:
             modify_dialog.add_button('_Add', Gtk.ResponseType.OK)
 
+        self.modify_grid.show_all()
         response = modify_dialog.run()
 
         if response == Gtk.ResponseType.OK:
-            new_course = self.course_changer.get_course()
+            new_course = self.modify_grid.get_entry_values()
+        
+        self.modify_grid = ModifyGrid()
 
         modify_dialog.destroy()
         if new_course:
@@ -148,7 +136,7 @@ class AppWindow(Gtk.Window):
             1 if successful, 0 otherwise. 
         """
         if not self.course_manager.saved:
-            dialog = self.create_confirm_dialog()
+            dialog = self.create_exit_confirm_dialog()
             confirm_response = dialog.run()
             dialog.destroy()
 
@@ -171,7 +159,7 @@ class AppWindow(Gtk.Window):
             1 if successful, 0 otherwise.
         """
         if not self.course_manager.saved:
-            dialog = self.create_confirm_dialog()
+            dialog = self.create_exit_confirm_dialog()
             confirm_response = dialog.run()
             dialog.destroy()
 
@@ -281,7 +269,7 @@ class AppWindow(Gtk.Window):
     def quit(self, widget, thing=None):
         """Checks if the file is saved before closing."""
         if not self.course_manager.saved:
-            dialog = self.create_confirm_dialog() 
+            dialog = self.create_exit_confirm_dialog() 
             response = dialog.run()
             dialog.destroy()
 

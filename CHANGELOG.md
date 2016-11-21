@@ -1,3 +1,6 @@
+# 0.9.1 (11-21-2016)
+- Made sure PyFlowChart package uses relative imports
+
 # 0.9 (11-20-2016)
 - Unified ChartBuilder and ChartViewer
 - Made new, custom header bar

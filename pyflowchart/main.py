@@ -316,12 +316,20 @@ class FlowChartWindow(AppWindow):
         self.columns[time].pack_start(tile, True, True, 0)
         
     def edit_entry(self, button):
-        """Does not connect builder and viewer well"""
         entry = self.create_add_edit_dialog(self.course_manager.courses[self.selected_id])
         if not entry:
             return False 
         entry['course_id'] = self.selected_id 
         entry = self.make_course(entry)
+        
+        # Check for conflicting prereqs; returns true if there are
+        if self.course_manager.check_prereq_conflicts(entry.time, entry.prereqs):
+            self.create_prereq_conflict_dialog()
+            confirm_response = dialog.run()
+            dialog.destroy()
+
+            if confirm_response == Gtk.ResponseType.CANCEL: 
+                return  
 
         self.course_manager.edit_entry(entry)
 

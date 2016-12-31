@@ -190,6 +190,13 @@ class CourseManager():
 
         self.last_course_id = self.last_course_id + 1
     
+    def check_prereq_conflicts(self, time, prereqs):
+        print(time)
+        for c_id, course in self.courses.items:
+           pass 
+
+        return False
+
     def get_course(self, c_id):
         course = self.courses[c_id] 
         return Course(
@@ -211,6 +218,33 @@ class CourseManager():
             flowfile.write(json.dumps(courses, indent=4))
         self.saved = True
         
+class courseTime(tuple):
+    """A way to represent when a course should be taken, adding some extensions to a tuple
+       for comparison purposes"""
+    def __init__(self, year, quarter):
+        tuple.__init__(self)
+        self.quarter_map =  {
+                "Fall":   0,
+                "Winter": 1,
+                "Spring": 2,
+                "Winter": 3  
+                }
+        self.year = year
+        self.quarter = self.quarter_map[quarter]
+        self.append(self.year)
+        self.append(self.quarter)
+
+    # def __ge__(self, other):
+        # if self.year > other.year:
+            # return True
+        # elif self.year < other.year:
+            # return False
+        # else:
+            # if self.quarter > other.quarter:
+                # return False
+
+
+
 
 
 

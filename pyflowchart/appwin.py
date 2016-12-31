@@ -59,11 +59,19 @@ class AppWindow(Gtk.Window):
                 "You have unsaved changes! Are you sure you wish to proceed?")
 
     def create_delete_confirm_dialog(self):
-        """Returns a dialog object to prompt the user if the flowchart is unsaved."""
+        """Returns a dialog object to prompt the user
+            to ensure they wish to delete the course."""
         return Gtk.MessageDialog(self, 0, 
                 Gtk.MessageType.WARNING, 
                 Gtk.ButtonsType.OK_CANCEL, 
                 "Are you sure you wish to delete this course?")
+
+    def create_prereq_conflict__dialog(self):
+        """Returns a dialog object to prompt the user if a course is moved before its prereqs."""
+        return Gtk.MessageDialog(self, 0, 
+                Gtk.MessageType.WARNING, 
+                Gtk.ButtonsType.OK_CANCEL, 
+                "Warning! Course placed before its prereqs. Continue?")
 
     def create_save_as_dialog(self):
         """Returns a Save As dialog object."""

@@ -187,10 +187,10 @@ class ModifyGrid(Gtk.Grid):
                 'catalog': self.catalog_entry.get_text(),
                 'credits': self.credits_spinner.get_value(),
                 'prereqs': prereqs,
-                'time'   : [
-                    self.year_selector.get_active_text(), 
+                'time'   : (
+                    int(self.year_selector.get_active_text()), 
                     self.quarter_selector.get_active_text()
-                    ],
+                    ),
                 'course_type': self.course_type_selector.get_active_text(),
                 'ge_type' :ge_text 
                 }
@@ -245,7 +245,7 @@ class ModifyGrid(Gtk.Grid):
         for prereq in prereqs:
             self.add_prereq(prereq=prereq)
 
-        self.year_selector.set_active(int(course['time'][0])-1)
+        self.year_selector.set_active(course['time'][0]-1)
         self.quarter_selector.set_active(self.quarter_map[course['time'][1]])
         self.course_type_selector.set_active(self.type_map[course['course_type']])
         

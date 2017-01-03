@@ -66,7 +66,7 @@ class AppWindow(Gtk.Window):
                 Gtk.ButtonsType.OK_CANCEL, 
                 "Are you sure you wish to delete this course?")
 
-    def create_prereq_conflict__dialog(self):
+    def create_prereq_conflict_dialog(self):
         """Returns a dialog object to prompt the user if a course is moved before its prereqs."""
         return Gtk.MessageDialog(self, 0, 
                 Gtk.MessageType.WARNING, 

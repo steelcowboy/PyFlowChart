@@ -1,3 +1,6 @@
+# 0.9.1 (01-DD-2017)
+- Implemented checking for completion of prereqs before moving course
+
 # 0.9 (11-20-2016)
 - Unified ChartBuilder and ChartViewer
 - Made new, custom header bar

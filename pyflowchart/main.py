@@ -323,8 +323,8 @@ class FlowChartWindow(AppWindow):
         entry = self.make_course(entry)
         
         # Check for conflicting prereqs; returns true if there are
-        if self.course_manager.check_prereq_conflicts(entry.time, entry.prereqs):
-            self.create_prereq_conflict_dialog()
+        if self.course_manager.check_prereq_conflicts(entry):
+            dialog = self.create_prereq_conflict_dialog()
             confirm_response = dialog.run()
             dialog.destroy()
 

@@ -9,7 +9,7 @@ class about_dialog(Gtk.AboutDialog):
         Gtk.AboutDialog.__init__(self, parent=parent)
 
         self.set_program_name('PyFlowChart')
-        self.set_version('0.9')
+        self.set_version('0.9.1')
         self.set_comments('A program to create interactive cirriculum flowcharts')
 
         self.set_logo_icon_name('applications-accessories')

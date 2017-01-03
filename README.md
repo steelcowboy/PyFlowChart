@@ -1,4 +1,4 @@
-# PyFlowChart v0.9
+# PyFlowChart v0.9.1
 
 PyFlowChart is a project to help students plan out courses 
 for their college career. It is currently beta quality 
@@ -24,7 +24,7 @@ and under heavy development.
   - Allow adding special quarters (AP, Q+)
 - ~~Combine chartbuilder and chartviewer~~ 10/31/2016
 - ~~Allow copy/pasting of courses~~
-- Deal with case where user adds a course before its prereqs have been fulfilled
+- ~~Deal with case where user adds a course before its prereqs have been fulfilled~~ 1/2/2017
 - Add some help pages 
 - Package PyFlowChart for all three major operating systems, including multiple Linux distributions
 

@@ -1,5 +1,6 @@
 import json
 from .course import Course 
+from .coursetime import courseTime 
 from datetime import datetime 
 
 class CourseManager():
@@ -88,6 +89,8 @@ class CourseManager():
             if 'ge_type' not in course:
                 course['ge_type'] = None
 
+            course['time'] = courseTime(int(course['time'][0]), course['time'][1])
+
             self.courses[course_id] = course
 
             if self.store:
@@ -134,13 +137,16 @@ class CourseManager():
                 chosen_course.course_type,
                 c_id
                 ]
-
+        
+        # Convert the tuple to a courseTime
+        time = courseTime(chosen_course.time[0], chosen_course.time[1])
+        
         # Course ID from the arguments
         self.courses[c_id]['title']       = chosen_course.title
         self.courses[c_id]['catalog']     = chosen_course.catalog
         self.courses[c_id]['credits']     = chosen_course.credits
         self.courses[c_id]['prereqs']     = chosen_course.prereqs
-        self.courses[c_id]['time']        = chosen_course.time
+        self.courses[c_id]['time']        = time
         self.courses[c_id]['course_type'] = chosen_course.course_type
         self.courses[c_id]['ge_type']     = chosen_course.ge_type 
         
@@ -190,10 +196,14 @@ class CourseManager():
 
         self.last_course_id = self.last_course_id + 1
     
-    def check_prereq_conflicts(self, time, prereqs):
-        print(time)
-        for c_id, course in self.courses.items:
-           pass 
+    def check_prereq_conflicts(self, entry):
+        time = courseTime(int(entry.time[0]), entry.time[1])
+
+        for c_id, course in self.courses.items():
+            if course['time'] > time:
+                if course['catalog'] in entry.prereqs:
+                    return True
+                    break
 
         return False
 
@@ -217,36 +227,3 @@ class CourseManager():
                     }
             flowfile.write(json.dumps(courses, indent=4))
         self.saved = True
-        
-class courseTime(tuple):
-    """A way to represent when a course should be taken, adding some extensions to a tuple
-       for comparison purposes"""
-    def __init__(self, year, quarter):
-        tuple.__init__(self)
-        self.quarter_map =  {
-                "Fall":   0,
-                "Winter": 1,
-                "Spring": 2,
-                "Winter": 3  
-                }
-        self.year = year
-        self.quarter = self.quarter_map[quarter]
-        self.append(self.year)
-        self.append(self.quarter)
-
-    # def __ge__(self, other):
-        # if self.year > other.year:
-            # return True
-        # elif self.year < other.year:
-            # return False
-        # else:
-            # if self.quarter > other.quarter:
-                # return False
-
-
-
-
-
-
-
-

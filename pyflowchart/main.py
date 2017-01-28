@@ -377,7 +377,6 @@ class FlowChartWindow(AppWindow):
 
     def on_drag_data_get(self, widget, drag_context, data, info, time):
         text = str(widget.course_id)  
-        # widget.destroy()
         self.drag_widget = widget 
         data.set_text(text, -1)
 
@@ -422,6 +421,7 @@ class FlowChartWindow(AppWindow):
         self.columns[time].pack_start(tile, True, True, 0)
 
         self.course_manager.edit_entry(chosen_course=tile)
+        self.drag_widget = None
 
 def main():
     css = b"""

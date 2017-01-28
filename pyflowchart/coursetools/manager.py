@@ -200,7 +200,7 @@ class CourseManager():
         time = courseTime(int(entry.time[0]), entry.time[1])
 
         for c_id, course in self.courses.items():
-            if course['time'] > time:
+            if course['time'] >= time:
                 if course['catalog'] in entry.prereqs:
                     return True
                     break

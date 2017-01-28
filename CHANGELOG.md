@@ -1,4 +1,4 @@
-# 0.9.1 (01-DD-2017)
+# 0.9.1 (01-28-2017)
 - Implemented checking for completion of prereqs before moving course
 
 # 0.9 (11-20-2016)

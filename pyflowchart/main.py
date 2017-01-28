@@ -23,6 +23,8 @@ class FlowChartWindow(AppWindow):
         No arguments accepted. Initializes as an AppWindow and sets up interface."""
         AppWindow.__init__(self, title="Flowchart Viewer")
 
+        self.drag_widget = None
+
         self.column_template = "year_{}_{}"
         self.quarter_map = dict(enumerate(["fall", "winter", "spring", "summer"]))
         self.mode = 'viewer'
@@ -375,13 +377,14 @@ class FlowChartWindow(AppWindow):
 
     def on_drag_data_get(self, widget, drag_context, data, info, time):
         text = str(widget.course_id)  
-        widget.destroy()
+        # widget.destroy()
+        self.drag_widget = widget 
         data.set_text(text, -1)
 
     def on_drag_data_received(self, widget, drag_context, x,y, data,info, time):
         tile_id = int(data.get_text())
         course = self.course_manager.courses[tile_id]
-
+        
         time = [widget.year, widget.quarter]
         tile = courseTile(
                 course['title'],       
@@ -393,6 +396,15 @@ class FlowChartWindow(AppWindow):
                 course['ge_type'],
                 tile_id
                 )
+
+        if self.course_manager.check_prereq_conflicts(tile):
+            dialog = self.create_prereq_conflict_dialog()
+            confirm_response = dialog.run()
+            dialog.destroy()
+
+            if confirm_response == Gtk.ResponseType.CANCEL: 
+                tile.time = course['time']
+                return True   
         
         tile.connect('button-press-event', self.tile_clicked)
         tile.connect("drag-data-get", self.on_drag_data_get)
@@ -405,7 +417,8 @@ class FlowChartWindow(AppWindow):
                 time[0], 
                 time[1].lower()
                 )
-
+        
+        self.drag_widget.destroy() 
         self.columns[time].pack_start(tile, True, True, 0)
 
         self.course_manager.edit_entry(chosen_course=tile)

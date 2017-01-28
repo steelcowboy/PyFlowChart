@@ -4,5 +4,5 @@
 # Beta Testers/Chart Builders
 Thanks to everyone who helped test the program and create their degree flowchart!
 
-- Leah Torres <leahtorres15@gmail.com> 
-- Kathleen Mitchell <kaleegirl@gmail.com>
+- Leah Torres <<leahtorres15@gmail.com>> 
+- Kathleen Mitchell <<kaleegirl@gmail.com>>

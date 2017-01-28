@@ -25,6 +25,7 @@ and under heavy development.
 - ~~Combine chartbuilder and chartviewer~~ 10/31/2016
 - ~~Allow copy/pasting of courses~~
 - ~~Deal with case where user adds a course before its prereqs have been fulfilled~~ 1/2/2017
+- Develop a mechanism to show how many units are in each quarter
 - Add some help pages 
 - Package PyFlowChart for all three major operating systems, including multiple Linux distributions
 
@@ -34,3 +35,5 @@ and under heavy development.
 - Client-server architecture for CourseManager
 - Allow for transferring data between instances
 - Be able to compare two flowcharts
+- Import flowcharts from repository
+- Undo functionality

@@ -1,5 +1,6 @@
 # 0.9.1 (01-28-2017)
 - Implemented checking for completion of prereqs before moving course
+- Made sure PyFlowChart package uses relative imports
 
 # 0.9 (11-20-2016)
 - Unified ChartBuilder and ChartViewer

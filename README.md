@@ -23,8 +23,10 @@ and under heavy development.
 - ~~More dynamic interface~~ *Can now show and hide quarters* 10/21/2016
   - Allow adding special quarters (AP, Q+)
 - ~~Combine chartbuilder and chartviewer~~ 10/31/2016
-- ~~Allow copy/pasting of courses~~
+- ~~Allow copy/pasting of courses~~ 9/11/2016
 - ~~Deal with case where user adds a course before its prereqs have been fulfilled~~ 1/2/2017
+- Add Notes section for courses
+- Add support for multiple GE categories
 - Develop a mechanism to show how many units are in each quarter
 - Add some help pages 
 - Package PyFlowChart for all three major operating systems, including multiple Linux distributions

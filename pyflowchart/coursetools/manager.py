@@ -67,18 +67,22 @@ class CourseManager():
         course_id = 0
         course_ids = []
 
-        tmp_cs = file_courses['courses'] 
+        cs = file_courses['courses'] 
+        #tmp_cs = file_courses['courses'] 
         
+        """ Old compatibility code
         if isinstance(tmp_cs, list):
             cs = {}
             for course_object in tmp_cs:
                 object_id = course_object.pop('course_id')
                 cs[object_id] = course_object
+
         elif isinstance(tmp_cs, dict): 
             cs = tmp_cs 
         else:
             raise Exception("Invalid course object!")
             return 0
+        """
 
         for course_id, course in cs.items():
             course_id = int(course_id)

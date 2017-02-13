@@ -90,10 +90,10 @@ class CourseManager():
                 course['prereqs'] = [x.strip() for x in 
                     course['prereqs'].split(',')]
 
-            if 'ge_type' not in course:
-                course['ge_type'] = [None]
-            elif isinstance(course['ge_type'], str):
+            if isinstance(course['ge_type'], str):
                 course['ge_type'] = [course['ge_type']]
+            else:
+                course['ge_type'] = [None]
 
             course['time'] = courseTime(int(course['time'][0]), course['time'][1])
 
@@ -186,6 +186,7 @@ class CourseManager():
             c_id = self.last_course_id + 1
             self.last_course_id = self.last_course_id + 1
 
+        course['time'] = courseTime(int(course['time'][0]), course['time'][1])
         self.courses[c_id] = course 
         if self.store:
             self.store.append([

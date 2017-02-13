@@ -147,6 +147,8 @@ class CourseManager():
         # Convert the tuple to a courseTime
         time = courseTime(chosen_course.time[0], chosen_course.time[1])
         
+        chosen_course.ge_type = list(filter(None, chosen_course.ge_type))
+        
         # Course ID from the arguments
         self.courses[c_id]['title']       = chosen_course.title
         self.courses[c_id]['catalog']     = chosen_course.catalog
@@ -187,7 +189,10 @@ class CourseManager():
             self.last_course_id = self.last_course_id + 1
 
         course['time'] = courseTime(int(course['time'][0]), course['time'][1])
+        course['ge_type'] = list(filter(None, chosen_course.ge_type))
+
         self.courses[c_id] = course 
+
         if self.store:
             self.store.append([
                 course['catalog'], 

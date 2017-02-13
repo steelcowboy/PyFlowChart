@@ -139,14 +139,6 @@ class ModifyGrid(Gtk.Grid):
         for pos, label in enumerate(self.labels):
             self.attach(label, 0, pos+1, 1, 1)
 
-        # self.attach(self.title_label,       0, 1, 1, 1)
-        # self.attach(self.catalog_label,     0, 2, 1, 1)
-        # self.attach(self.credits_label,     0, 3, 1, 1)
-        # self.attach(self.prereqs_label,     0 ,4, 1, 1)
-        # self.attach(self.time_label,        0, 5, 1, 1)
-        # self.attach(self.course_type_label, 0, 6, 1, 1)
-        # self.attach(self.ge_type_label,     0, 7, 1, 1)
-
         self.attach(self.title_entry,           1, 1, 1, 1)
         self.attach(self.catalog_entry,         1, 2, 1, 1)
         self.attach(self.credits_spinner,       1, 3, 1, 1)
@@ -155,7 +147,6 @@ class ModifyGrid(Gtk.Grid):
         self.attach(self.course_type_selector,  1, 6, 1, 1)
         self.attach(self.ge_type_selector,      1, 7, 1, 1)
         
- 
         self.bottom_row = 7
     
     def create_change_box(self):
@@ -192,7 +183,7 @@ class ModifyGrid(Gtk.Grid):
                     self.quarter_selector.get_active_text()
                     ),
                 'course_type': self.course_type_selector.get_active_text(),
-                'ge_type' :ge_text 
+                'ge_type' : [ge_text] 
                 }
         self.course_id = None
         return new_course
@@ -251,6 +242,3 @@ class ModifyGrid(Gtk.Grid):
         
         if course['ge_type'] is not None:
             self.ge_type_selector.set_active(self.ge_type_map[course['ge_type']])
-
-    # def attach(self, widget, left, top, width, height):
-        # super(Gtk.Grid, self).attach(widget,left,top,width,height)

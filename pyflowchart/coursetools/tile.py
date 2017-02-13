@@ -41,7 +41,7 @@ class courseTile(Gtk.EventBox, Course):
             self.box.pack_end(self.prereqs_text, True, True, 0)
 
         if self.ge_type is not None:
-            self.ge_text = Gtk.Label("[" + self.ge_type + "]")
+            self.ge_text = Gtk.Label("[" + '/'.join(self.ge_type) + "]")
             self.ge_text.get_style_context().add_class('ge-text')
             self.box.pack_end(self.ge_text, True, True, 0)
 

@@ -91,7 +91,9 @@ class CourseManager():
                     course['prereqs'].split(',')]
 
             if 'ge_type' not in course:
-                course['ge_type'] = None
+                course['ge_type'] = [None]
+            elif isinstance(course['ge_type'], str):
+                course['ge_type'] = [course['ge_type']]
 
             course['time'] = courseTime(int(course['time'][0]), course['time'][1])
 

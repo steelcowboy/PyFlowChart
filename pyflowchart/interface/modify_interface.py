@@ -296,10 +296,15 @@ class ModifyGrid(Gtk.Grid):
         self.year_selector.set_active(course['time'][0]-1)
         self.quarter_selector.set_active(self.quarter_map[course['time'][1]])
         self.course_type_selector.set_active(self.type_map[course['course_type']])
-        
-        if course['ge_type'] != [None]:
-            for ge in course['ge_type']:
-                self.add_ge(ge=ge)
+
+        ge_types = list(filter(None, course['ge_type']))
+
+        if len(prereqs):
+            self.prereq_box.get_children()[0].set_text(prereqs[0])
+            prereqs = prereqs[1:]
+
+        for ge in course['ge_type']:
+            self.add_ge(ge=ge)
 
         if course['notes'] is not None:
             self.notes_entry.set_text(course['notes'])

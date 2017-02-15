@@ -10,10 +10,11 @@ class Course():
         course_type (str): One of:
              Major, Support, Concentration, General Ed, or Free Elective.
         course_id (int): An id used internally to reference the course. 
-
+        notes (str): Any note about the course  
     """ 
     
-    def __init__(self, title, catalog, credits, prereqs, time, course_type, ge_type=None, course_id=None):
+    def __init__(self, title, catalog, credits, prereqs, time, course_type, 
+            ge_type=None, course_id=None, notes=None):
         
         self.title = title
         self.catalog = catalog
@@ -22,7 +23,8 @@ class Course():
         self.time = time
         self.course_type = course_type
         self.ge_type = ge_type 
-        self.course_id = course_id 
+        self.course_id = course_id
+        self.notes = notes 
 
     def __str__(self):
         """Return a string with the course's information, usually for debugging."""
@@ -43,7 +45,8 @@ class Course():
                 'prereqs'     : self.prereqs, 
                 'time'        : self.time,
                 'course_type' : self.course_type,
-                'ge_type'     : self.ge_type
+                'ge_type'     : self.ge_type,
+                'notes'       : self.notes 
                 }
         return export_dict
     

@@ -9,10 +9,10 @@ DRAG_ACTION = Gdk.DragAction.COPY
 
 class courseTile(Gtk.EventBox, Course):
     """An EventBox that contains all data and menthods of a Course."""
-    def __init__(self, title, catalog, units, prereqs, time, course_type, ge_type, course_id):
+    def __init__(self, title, catalog, units, prereqs, time, course_type, ge_type, course_id, notes):
         Gtk.EventBox.__init__(self)
         Course.__init__(
-                self, title, catalog, units, prereqs, time, course_type, ge_type, course_id)
+                self, title, catalog, units, prereqs, time, course_type, ge_type, course_id, notes)
 
         self.course_class = self.course_type.lower().replace(" ", "-")
         self.get_style_context().add_class(self.course_class)
@@ -29,11 +29,17 @@ class courseTile(Gtk.EventBox, Course):
         self.box.set_margin_end(5)
         self.frame.add(self.box)
 
-        self.title_text = Gtk.Label(self.title)
+        if self.notes is not None:
+            self.title_text = Gtk.Label(self.title + "*")
+        else:
+            self.title_text = Gtk.Label(self.title)
+
         self.catalog_text = Gtk.Label(self.catalog)
         self.credits_text = Gtk.Label("(" + str(self.credits) + ")")
 
-        if self.prereqs and self.prereqs != ['']:
+        # if self.prereqs and self.prereqs != ['']:
+        # Don't know why I had two things, lets see if it breaks 
+        if self.prereqs != ['']:
             self.prereqs_text = Gtk.Label("(" + ', '.join(self.prereqs) + ")")
             self.prereqs_text.get_style_context().add_class('prereq-text')
             self.prereqs_text.set_justify(Gtk.Justification.CENTER)

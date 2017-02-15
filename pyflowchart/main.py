@@ -205,7 +205,8 @@ class FlowChartWindow(AppWindow):
                     course['time'], 
                     course['course_type'],
                     course['ge_type'],
-                    c_id  
+                    c_id,  
+                    course['notes']
                     )
             tile.connect('button-press-event', self.tile_clicked)
             tile.connect("drag-data-get", self.on_drag_data_get)
@@ -240,7 +241,8 @@ class FlowChartWindow(AppWindow):
                 course_dict['time'],
                 course_dict['course_type'],
                 course_dict['ge_type'],
-                course_dict['course_id']
+                course_dict['course_id'],
+                course_dict['notes']
                 )
         return course
 
@@ -253,7 +255,8 @@ class FlowChartWindow(AppWindow):
                 course.time,    
                 course.course_type,  
                 course.ge_type,
-                course.course_id 
+                course.course_id,
+                course.notes
                 )
         
         tile.connect('button-press-event', self.tile_clicked)

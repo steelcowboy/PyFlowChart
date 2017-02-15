@@ -396,7 +396,9 @@ class FlowChartWindow(AppWindow):
                 time,    
                 course['course_type'],  
                 course['ge_type'],
-                tile_id
+                tile_id,
+                course['notes']
+
                 )
 
         if self.course_manager.check_prereq_conflicts(tile):

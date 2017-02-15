@@ -72,8 +72,11 @@ class ModifyGrid(Gtk.Grid):
         self.time_label = Gtk.Label('Year and Quarter:')
         self.course_type_label = Gtk.Label('Course Type:')
         self.ge_type_label = Gtk.Label('GE Type: (optional)')
+        self.notes_label = Gtk.Label('Notes: (optional)')
 
-        self.labels = [self.title_label, self.catalog_label, self.credits_label, self.prereqs_label, self.time_label, self.course_type_label, self.ge_type_label]
+        self.labels = [self.title_label, self.catalog_label, self.credits_label,
+                self.prereqs_label, self.time_label, 
+                self.course_type_label, self.ge_type_label, self.notes_label]
 
     def generate_entries(self):
         self.title_entry = Gtk.Entry()
@@ -133,6 +136,8 @@ class ModifyGrid(Gtk.Grid):
         self.ge_buttons_box.pack_start(self.create_change_box("ge"), True, True, 0)
         self.ge_box.pack_end(self.ge_buttons_box, True, True, 0)
 
+        self.notes_entry = Gtk.Entry() 
+
     def generate_ge_selector(self):
         ge_type_selector = Gtk.ComboBoxText()
         ge_type_selector.append_text('None')
@@ -158,9 +163,10 @@ class ModifyGrid(Gtk.Grid):
         self.attach(self.prereqs_box,           1, 4, 1, 1)
         self.attach(self.time_box,              1, 5, 1, 1)
         self.attach(self.course_type_selector,  1, 6, 1, 1)
-        self.attach(self.ge_box,  1, 7, 1, 1)
+        self.attach(self.ge_box,                1, 7, 1, 1)
+        self.attach(self.notes_entry,           1, 8, 1, 1)
         
-        self.bottom_row = 7
+        self.bottom_row = 8
     
     def create_change_box(self, button_type="prereq"):
         change_box = Gtk.Box() 
@@ -183,6 +189,10 @@ class ModifyGrid(Gtk.Grid):
     
     def get_entry_values(self):
         """Retreive course information from the interface."""
+        notes = self.notes_entry.get_text()
+        if notes == '':
+            notes = None
+
         prereqs = [] 
         for entry in self.prereq_box.get_children():
             prereqs.append(entry.get_text())
@@ -205,7 +215,8 @@ class ModifyGrid(Gtk.Grid):
                     self.quarter_selector.get_active_text()
                     ),
                 'course_type': self.course_type_selector.get_active_text(),
-                'ge_type' : ges 
+                'ge_type' : ges,
+                'notes'  : notes 
                 }
         self.course_id = None
         return new_course
@@ -289,3 +300,6 @@ class ModifyGrid(Gtk.Grid):
         if course['ge_type'] != [None]:
             for ge in course['ge_type']:
                 self.add_ge(ge=ge)
+
+        if course['notes'] is not None:
+            self.notes_entry.set_text(course['notes'])

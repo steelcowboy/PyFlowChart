@@ -177,7 +177,7 @@ class CourseManager():
             self.last_course_id = self.last_course_id + 1
 
         course['time'] = courseTime(int(course['time'][0]), course['time'][1])
-        course['ge_type'] = list(filter(None, chosen_course.ge_type))
+        course['ge_type'] = list(filter(None, course['ge_type']))
 
         self.courses[c_id] = course 
 

@@ -299,11 +299,11 @@ class ModifyGrid(Gtk.Grid):
 
         ge_types = list(filter(None, course['ge_type']))
 
-        if len(prereqs):
-            self.prereq_box.get_children()[0].set_text(prereqs[0])
-            prereqs = prereqs[1:]
+        if len(ge_types):
+            self.ge_type_selector_box.get_children()[0].set_active(self.ge_type_map[ge_types[0]])
+            ge_types = ge_types[1:]
 
-        for ge in course['ge_type']:
+        for ge in ge_types:
             self.add_ge(ge=ge)
 
         if course['notes'] is not None:

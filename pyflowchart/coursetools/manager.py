@@ -145,6 +145,7 @@ class CourseManager():
         self.courses[c_id]['time']        = time
         self.courses[c_id]['course_type'] = chosen_course.course_type
         self.courses[c_id]['ge_type']     = chosen_course.ge_type 
+        self.courses[c_id]['notes']       = chosen_course.notes
         
         self.saved = False
         return chosen_course.course_id   

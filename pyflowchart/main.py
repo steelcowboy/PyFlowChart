@@ -386,7 +386,7 @@ class FlowChartWindow(AppWindow):
     def on_drag_data_received(self, widget, drag_context, x,y, data,info, time):
         tile_id = int(data.get_text())
         course = self.course_manager.courses[tile_id]
-        
+
         time = [widget.year, widget.quarter]
         tile = courseTile(
                 course['title'],       
@@ -398,7 +398,6 @@ class FlowChartWindow(AppWindow):
                 course['ge_type'],
                 tile_id,
                 course['notes']
-
                 )
 
         if self.course_manager.check_prereq_conflicts(tile):

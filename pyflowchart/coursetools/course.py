@@ -28,11 +28,12 @@ class Course():
 
     def __str__(self):
         """Return a string with the course's information, usually for debugging."""
-        return "{}\n{}\n{} Credits\n{}".format(
+        return "{}\n{}\n{} Credits\n{}\n".format(
                 self.title,
                 self.catalog,
                 self.credits,
-                self.time
+                self.time,
+                self.notes
                 )
 
     def export(self):

@@ -234,10 +234,11 @@ class AppWindow(Gtk.Window):
 
     def preferences(self, button=None):
         for c_id, course in self.course_manager.courses.items():
-            if (course['ge_type'] != None and
-                    course['catalog'] not in self.course_manager.ge_map and
-                    course['ge_type'] not in self.course_manager.ge_map): 
-                self.course_manager.ge_map[course['ge_type']] = course['catalog']
+            for ge in course['ge_type']:
+                if (ge is not None and
+                        course['catalog'] not in self.course_manager.ge_map and
+                        ge not in self.course_manager.ge_map): 
+                    self.course_manager.ge_map[ge] = course['catalog']
 
         dialog = preferences_dialog(self, self.course_manager.ge_map, self.course_manager.user)
 

@@ -26,7 +26,7 @@ and under heavy development.
 - ~~Allow copy/pasting of courses~~ 9/11/2016
 - ~~Deal with case where user adds a course before its prereqs have been fulfilled~~ 1/2/2017
 - ~~Add support for multiple GE categories~~ 2/12/2017
-- Add Notes section for courses
+- ~~Add Notes section for courses~~ 2/15/2017
 - Develop a mechanism to show how many units are in each quarter
 - Add some help pages 
 - Package PyFlowChart for all three major operating systems, including multiple Linux distributions

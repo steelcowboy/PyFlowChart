@@ -1,5 +1,6 @@
-# 0.9.2 (02-XX-2017)
+# 0.9.2 (02-16-2017)
 - Supported possibility of overlapping GE types for course 
+- New notes section, notes viewed by hovering mouse
 
 # 0.9.1 (01-28-2017)
 - Implemented checking for completion of prereqs before moving course

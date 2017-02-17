@@ -37,9 +37,7 @@ class courseTile(Gtk.EventBox, Course):
         self.catalog_text = Gtk.Label(self.catalog)
         self.credits_text = Gtk.Label("(" + str(self.credits) + ")")
 
-        # if self.prereqs and self.prereqs != ['']:
-        # Don't know why I had two things, lets see if it breaks 
-        if self.prereqs != ['']:
+        if self.prereqs and self.prereqs != ['']:
             self.prereqs_text = Gtk.Label("(" + ', '.join(self.prereqs) + ")")
             self.prereqs_text.get_style_context().add_class('prereq-text')
             self.prereqs_text.set_justify(Gtk.Justification.CENTER)

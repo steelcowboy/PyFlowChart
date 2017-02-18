@@ -34,7 +34,6 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Program Files\PyFlowChart\PyFlowChart.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Jim Heald\projects\PyFlowChart\LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Jim Heald\projects\PyFlowChart\CREDITS.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Jim Heald\projects\PyFlowChart\CHANGELOG.md"; DestDir: "{app}"; Flags: ignoreversion

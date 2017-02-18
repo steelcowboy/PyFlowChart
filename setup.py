@@ -12,6 +12,7 @@ setup(name='PyFlowChart',
     url='https://github.com/steelcowboy/PyFlowChart',
     license='Modified BSD',
     packages=find_packages(),
+    package_data = { '/usr/share/applications': [ 'pyflowchart.desktop' ] },
     # ext_modules = cythonize(["pyflowchart/*.py", "pyflowchart/coursetools/*.py", "pyflowchart/interface/*.py"]),
     entry_points={'gui_scripts': [
         'pyflowchart = pyflowchart.main:main'

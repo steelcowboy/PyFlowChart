@@ -1,3 +1,6 @@
+# 0.9.2.1 (02-20-2017)
+- FIxed bug where "Builder" missing add button
+
 # 0.9.2 (02-16-2017)
 - Supported possibility of overlapping GE types for course 
 - New notes section, notes viewed by hovering mouse

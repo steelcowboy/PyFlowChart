@@ -116,7 +116,7 @@ class FlowChartWindow(AppWindow):
         add_button = Gtk.Button.new_with_label("Add")
         add_button.connect('clicked', self.add_entry)
         add_button.set_margin_top(5)
-        self.builder_grid.attach(add_button, 1, 8, 2, 1)
+        self.builder_grid.attach(add_button, 1, 9, 2, 1)
 
         grid.attach(self.builder_grid, 1, 0, 1, 1)
         

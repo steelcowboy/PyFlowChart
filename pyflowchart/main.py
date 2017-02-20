@@ -2,13 +2,13 @@ import gi, signal
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
-from coursetools.tile import courseTile, tileColumn
-from coursetools.course import Course
-from appwin import AppWindow
-from interface.viewergrid import courseGrid
-from interface.control_bar import controlBar 
-from interface.menus import dataMenu, addMenu
-from interface.modify_interface import ModifyGrid
+from pyflowchart.coursetools.tile import courseTile, tileColumn
+from pyflowchart.coursetools.course import Course
+from pyflowchart.appwin import AppWindow
+from pyflowchart.interface.viewergrid import courseGrid
+from pyflowchart.interface.control_bar import controlBar 
+from pyflowchart.interface.menus import dataMenu, addMenu
+from pyflowchart.interface.modify_interface import ModifyGrid
 
 TARGET_ENTRY_TEXT = 0
 COLUMN_TEXT = 0

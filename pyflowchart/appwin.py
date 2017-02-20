@@ -2,10 +2,10 @@ import gi, json, os
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-from interface.about import about_dialog
-from interface.preferences import preferences_dialog 
-from coursetools.manager import CourseManager
-from interface.modify_interface import ModifyGrid 
+from pyflowchart.interface.about import about_dialog
+from pyflowchart.interface.preferences import preferences_dialog 
+from pyflowchart.coursetools.manager import CourseManager
+from pyflowchart.interface.modify_interface import ModifyGrid 
 
 class AppWindow(Gtk.Window):
     """A class to set up a FlowChart app window.

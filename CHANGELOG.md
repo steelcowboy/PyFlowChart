@@ -1,3 +1,9 @@
+# 0.9.3 (02-XX-2017)
+- Allow user to set how many years needed in preferences
+- Reload interface when preferences changed
+- Import stock flowchart
+- Show how many units in quarter when hovered
+
 # 0.9.2.1 (02-20-2017)
 - Fixed bug where "Builder" missing add button
 - Set proper import scheme

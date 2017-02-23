@@ -21,6 +21,7 @@ and under heavy development.
 - ~~Show interface with completed GEs and allow user to write-in~~ 10/6/2016
 - ~~Drag and drop in the viewer~~ 10/21/2016 
 - ~~More dynamic interface~~ *Can now show and hide quarters* 10/21/2016
+  - ~~Set in preferences how many years to show~~ 2/22/2017
   - Allow adding special quarters (AP, Q+)
 - ~~Combine chartbuilder and chartviewer~~ 10/31/2016
 - ~~Allow copy/pasting of courses~~ 9/11/2016

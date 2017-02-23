@@ -46,7 +46,8 @@ class AppWindow(Gtk.Window):
         if not os.path.exists(self.config_file):
             with open(self.config_file, 'w') as conf:
                 config = {
-                        'userInfo' : {'year': 1},
+                        'userInfo' : {'year': 1,
+                                      'display_years': 4},
                         'GEs'      : {}
                         }
                 conf.write(json.dumps(config, indent=4))
@@ -135,7 +136,10 @@ class AppWindow(Gtk.Window):
                 return 0
 
             self.course_manager.ge_map = config["GEs"]
-            self.course_manager.user   = config["userInfo"]
+            userinfo = config["userInfo"]
+            if 'display_years' not in userinfo:
+                userinfo['display_years'] = 4
+            self.course_manager.user   = userinfo
 
     def new_file(self, widget=None):
         """Clears everything from CourseManager to create a new file.
@@ -246,7 +250,9 @@ class AppWindow(Gtk.Window):
 
         if response == Gtk.ResponseType.OK:
             year = int(dialog.year_selector.get_active_text())
+            display_years = int(dialog.display_years_selector.get_active_text())
             self.course_manager.user['year'] = year
+            self.course_manager.user['display_years'] = display_years
             self.course_manager.ge_map = {}
 
             for x in range(dialog.ge_length):

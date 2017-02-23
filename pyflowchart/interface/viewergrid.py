@@ -125,7 +125,7 @@ class yearGrid(Gtk.Grid):
         return True
 
 class courseGrid(Gtk.Grid):
-    def __init__(self):
+    def __init__(self, years=4):
         Gtk.Grid.__init__(self)
         # Tells which position the rightmost column is
         self.width = 0
@@ -150,7 +150,7 @@ class courseGrid(Gtk.Grid):
         horizontal_separator.set_margin_bottom(10)
         self.attach(horizontal_separator, 0, 1, 2, 1)
         
-        for x in range(1,5):
+        for x in range(1,years+1):
             self.add_year(x)
 
         self.show_all()

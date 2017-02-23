@@ -23,7 +23,8 @@ class CourseManager():
         self.courses = {}
         self.ge_map = {}        
         self.user = {
-                'year': 1
+                'year': 1,
+                'display_years': 4
                 }
         
         today = datetime.today()

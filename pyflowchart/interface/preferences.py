@@ -30,9 +30,16 @@ class preferences_dialog(Gtk.Dialog):
         
         self.year_selector = Gtk.ComboBoxText()
         self.user.attach(self.year_selector, 1, 0, 1, 1)
-        for x in range(1,6):
+        for x in range(1,7):
             self.year_selector.append_text(str(x))
         self.year_selector.set_active(user['year']-1)
+
+        self.user.attach(Gtk.Label("Years to display:"), 0, 1, 1, 1)
+        self.display_years_selector = Gtk.ComboBoxText()
+        self.user.attach(self.display_years_selector, 1, 1, 1, 1)
+        for x in range(1,7):
+            self.display_years_selector.append_text(str(x))
+        self.display_years_selector.set_active(user['display_years']-1)
         
         self.notebook.append_page(self.user, Gtk.Label("User Info"))
 

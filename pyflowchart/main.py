@@ -81,11 +81,11 @@ class FlowChartWindow(AppWindow):
         scroll_window.set_hexpand(True)
         viewer_grid.attach(scroll_window, 0, 0, 1, 1)
 
-        self.courses_grid = courseGrid()
+        self.courses_grid = courseGrid(self.course_manager.user['display_years'])
         scroll_window.add(self.courses_grid)
     
         self.columns = {}
-        for year in range(1,5):
+        for year in range(1,self.course_manager.user['display_years']+1):
             for pos, quarter in enumerate(["fall", "winter", "spring", "summer"]):
                 column_id = self.column_template.format(year, quarter)
                 column = self.courses_grid.year_map[year].quarter_map[pos]

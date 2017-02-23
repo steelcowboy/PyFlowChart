@@ -17,7 +17,7 @@ class about_dialog(Gtk.AboutDialog):
         self.set_copyright('© 2016 Jim Heald')
         self.set_license_type(Gtk.License.BSD)
 
-        self.set_authors('Jim Heald https://github.com/steelcowboy')
+        self.set_authors(['Jim Heald https://github.com/steelcowboy'])
 
         self.connect('response', self.hide_dialog)
         self.connect('delete-event', self.hide_dialog)

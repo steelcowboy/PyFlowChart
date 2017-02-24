@@ -237,6 +237,8 @@ class AppWindow(Gtk.Window):
         self.about_dialog.present()
 
     def preferences(self, button=None):
+        """Returns True if changes were made, otherwise False"""
+        ret = False 
         for c_id, course in self.course_manager.courses.items():
             for ge in course['ge_type']:
                 if (ge is not None and
@@ -251,8 +253,13 @@ class AppWindow(Gtk.Window):
         if response == Gtk.ResponseType.OK:
             year = int(dialog.year_selector.get_active_text())
             display_years = int(dialog.display_years_selector.get_active_text())
-            self.course_manager.user['year'] = year
-            self.course_manager.user['display_years'] = display_years
+            
+            if year != self.course_manager.user['year'] or display_years != self.course_manager.user['display_years']:
+                
+                self.course_manager.user['year'] = year
+                self.course_manager.user['display_years'] = display_years
+                ret = True 
+
             self.course_manager.ge_map = {}
 
             for x in range(dialog.ge_length):
@@ -271,6 +278,7 @@ class AppWindow(Gtk.Window):
             self.save_preferences()
 
         dialog.destroy()
+        return ret
 
     def save_preferences(self):
         """Save preferences."""

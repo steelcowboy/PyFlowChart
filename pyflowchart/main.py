@@ -74,12 +74,12 @@ class FlowChartWindow(AppWindow):
         self.add_menu.paste_button.connect('activate', self.paste_entry)
 
     def setup_viewer(self):
-        viewer_grid = Gtk.Grid()
+        self.viewer_grid = Gtk.Grid()
         
         scroll_window = Gtk.ScrolledWindow()
         scroll_window.set_vexpand(True)
         scroll_window.set_hexpand(True)
-        viewer_grid.attach(scroll_window, 0, 0, 1, 1)
+        self.viewer_grid.attach(scroll_window, 0, 0, 1, 1)
 
         self.courses_grid = courseGrid(self.course_manager.user['display_years'])
         scroll_window.add(self.courses_grid)
@@ -98,7 +98,7 @@ class FlowChartWindow(AppWindow):
                 column.connect("drag-data-received", self.on_drag_data_received)
                 self.columns[column_id] = column.box
 
-        self.interface_switcher.append_page(viewer_grid)
+        self.interface_switcher.insert_page(self.viewer_grid, None, 0)
 
     def setup_builder(self):
         """
@@ -141,13 +141,13 @@ class FlowChartWindow(AppWindow):
 
         scroll_window.add(self.added_tree)
 
-        self.interface_switcher.append_page(grid)
+        self.interface_switcher.insert_page(grid, None, 1)
 
-    def change_to_viewer(self, button):
+    def change_to_viewer(self, button=None):
         self.interface_switcher.set_current_page(0)
         self.mode = 'viewer'
 
-    def change_to_builder(self, button):
+    def change_to_builder(self, button=None):
         self.interface_switcher.set_current_page(1)
         self.mode = 'builder'
 
@@ -232,6 +232,16 @@ class FlowChartWindow(AppWindow):
                     time = self.column_template.format(year, dict(self.quarter_map)[x])
                     self.columns[time].get_style_context().add_class('completed')
     
+    def preferences(self, button=None):
+        if not super(FlowChartWindow, self).preferences(button):
+            return
+
+        self.interface_switcher.detach_tab(self.viewer_grid)
+        self.setup_viewer() 
+        self.load_courses()
+        self.show_all()
+        self.change_to_viewer()
+
     def make_course(self, course_dict):
         course = Course(
                 course_dict['title'],

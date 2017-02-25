@@ -220,7 +220,8 @@ class FlowChartWindow(AppWindow):
                     course['time'][1].lower()
                     )
 
-            self.columns[time].pack_start(tile, True, True, 0)
+            if course['time'][0] <= self.course_manager.user['display_years']:
+                self.columns[time].pack_start(tile, True, True, 0)
 
         for year in range(1, self.course_manager.user['year']+1):
             if year == self.course_manager.user['year']:

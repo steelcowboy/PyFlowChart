@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 #from distutils.core import setup
 # from Cython.Build import cythonize
 
-VERSION="0.9.2.1"
+VERSION="0.9.3"
 
 setup(name='PyFlowChart',
     version=VERSION,

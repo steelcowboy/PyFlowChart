@@ -1,4 +1,4 @@
-# 0.9.3 (02-XX-2017)
+# 0.9.3 (02-25-2017)
 - Allow user to set how many years needed in preferences
 - Reload interface when preferences changed
 - Import stock flowchart

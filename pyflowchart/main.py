@@ -309,11 +309,6 @@ class FlowChartWindow(AppWindow):
 
         entry = self.make_course(entry)
 
-        # This needs to give an error
-        if entry.course_type is None:
-            print("Course type was not specified. Refusing to add") 
-            return
-
         self.course_manager.add_entry(entry)
         tile = self.make_tile(entry)
 

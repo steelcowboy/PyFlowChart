@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PyFlowChart"
-#define MyAppVersion "0.9.2.1"
+#define MyAppVersion "0.9.3"
 #define MyAppPublisher "Jim Heald"
 #define MyAppURL "https://github.com/steelcowboy/PyFlowChart"
 #define MyAppExeName "PyFlowChart.exe"
@@ -23,7 +23,7 @@ DefaultDirName=C:\Program Files\{#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=C:\Users\Jim Heald\projects\PyFlowChart\LICENSE.txt
 InfoAfterFile=C:\Users\Jim Heald\projects\PyFlowChart\CREDITS.md
-OutputBaseFilename=pyflowchart_0.9.2.1_setup
+OutputBaseFilename=pyflowchart_0.9.3_setup
 Compression=lzma
 SolidCompression=yes
 

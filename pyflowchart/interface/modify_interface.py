@@ -189,6 +189,12 @@ class ModifyGrid(Gtk.Grid):
     
     def get_entry_values(self):
         """Retreive course information from the interface."""
+
+        # This is a required field 
+        course_type = self.course_type_selector.get_active_text()
+        if course_type is None:
+            return False
+
         notes = self.notes_entry.get_text()
         if notes == '':
             notes = None
@@ -214,7 +220,7 @@ class ModifyGrid(Gtk.Grid):
                     int(self.year_selector.get_active_text()), 
                     self.quarter_selector.get_active_text()
                     ),
-                'course_type': self.course_type_selector.get_active_text(),
+                'course_type': course_type,
                 'ge_type' : ges,
                 'notes'  : notes 
                 }

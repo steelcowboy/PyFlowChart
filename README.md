@@ -38,5 +38,5 @@ and under heavy development.
 - Client-server architecture for CourseManager
 - Allow for transferring data between instances
 - Be able to compare two flowcharts
-- Import flowcharts from repository
+- ~~Import flowcharts from repository~~ 2/25/2017
 - Undo functionality

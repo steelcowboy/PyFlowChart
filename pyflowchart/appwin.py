@@ -116,11 +116,24 @@ class AppWindow(Gtk.Window):
             modify_dialog.add_button('_Add', Gtk.ResponseType.OK)
 
         self.modify_grid.show_all()
-        response = modify_dialog.run()
 
-        if response == Gtk.ResponseType.OK:
-            new_course = self.modify_grid.get_entry_values()
-        
+        while True:
+            response = modify_dialog.run()
+
+            if response == Gtk.ResponseType.OK:
+                new_course = self.modify_grid.get_entry_values()
+                if new_course:
+                    break
+            
+            no_type_dialog = Gtk.MessageDialog(self, 0, 
+                                Gtk.MessageType.INFO, 
+                                Gtk.ButtonsType.OK, 
+                                "Please select a type for the course")
+            no_type_dialog.show_all()
+            no_type_dialog.run()
+            pass
+            no_type_dialog.destroy()
+
         self.modify_grid = ModifyGrid()
 
         modify_dialog.destroy()
@@ -249,6 +262,8 @@ class AppWindow(Gtk.Window):
         chart_list = requests.get(url).json()['charts']
         chart_to_load = self.create_import_from_server_dialog(chart_list)
         chart = requests.get(url + "/{}".format(chart_to_load)).json() 
+        # Clear the Course Manager before the new data is imported
+        self.new_file(widget)
         self.course_manager.load_json(chart)
 
     def save_entry(self, window):

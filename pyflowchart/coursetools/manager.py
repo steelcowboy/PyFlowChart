@@ -63,12 +63,16 @@ class CourseManager():
                 courses = json.loads(jsonfile.read())
             except ValueError: 
                 return 0
+        
+        # To support older format
+        if 'courses' in courses:
+            courses = courses['courses'] 
 
-        file_courses = courses
+        return self.load_json(courses)
+    
+    def load_json(self, cs):
         course_id = 0
         course_ids = []
-
-        cs = file_courses['courses'] 
 
         for course_id, course in cs.items():
             course_id = int(course_id)
@@ -225,8 +229,5 @@ class CourseManager():
     def save(self, filename):
         """Save all courses to the given filename."""
         with open(filename, 'w') as flowfile:
-            courses = {
-                    'courses' : self.courses
-                    }
-            flowfile.write(json.dumps(courses, indent=4))
+            flowfile.write(json.dumps(self.courses, indent=4))
         self.saved = True

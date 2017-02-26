@@ -29,6 +29,8 @@ class FlowChartWindow(AppWindow):
         self.quarter_map = dict(enumerate(["fall", "winter", "spring", "summer"]))
         self.mode = 'viewer'
 
+        self.import_url = "http://devjimheald.com:6500/stock_charts" 
+
         self.setup_window()
         self.connect('delete-event', self.quit)
     
@@ -57,6 +59,7 @@ class FlowChartWindow(AppWindow):
     def connect_control_buttons(self):
         self.menubar.new_button.connect('activate', self.new_file)
         self.menubar.open_button.connect('activate', self.open_file)
+        self.menubar.open_stock_button.connect('activate', self.import_stock) 
         self.menubar.viewer_button.connect('activate', self.change_to_viewer)
         self.menubar.builder_button.connect('activate', self.change_to_builder)
         self.menubar.save_button.connect('activate', self.save_entry)
@@ -191,6 +194,13 @@ class FlowChartWindow(AppWindow):
     
         self.load_courses()
 
+    def import_stock(self, widget):
+        super(FlowChartWindow, self).import_stock(widget, self.import_url)
+        # if not super(FlowChartWindow, self).import_stock(widget, self.import_url):
+            # return 
+
+        self.load_courses() 
+
     def load_courses(self):
         for time, box in self.columns.items():
             for tile in box.get_children():
@@ -298,6 +308,11 @@ class FlowChartWindow(AppWindow):
             raise Exception('Unknown course mode: {}'.format(self.mode))
 
         entry = self.make_course(entry)
+
+        # This needs to give an error
+        if entry.course_type is None:
+            print("Course type was not specified. Refusing to add") 
+            return
 
         self.course_manager.add_entry(entry)
         tile = self.make_tile(entry)

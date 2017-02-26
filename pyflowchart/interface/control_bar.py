@@ -15,7 +15,6 @@ class controlBar(Gtk.HeaderBar):
 
         self.file_button = Gtk.Button.new_from_icon_name("open-menu-symbolic", ICONSIZE)
         
-        
         self.settings_button = Gtk.Button.new_from_icon_name("preferences-system", ICONSIZE)
         self.help_button = Gtk.Button.new_from_icon_name("help-about", ICONSIZE)
         
@@ -45,6 +44,8 @@ class controlBar(Gtk.HeaderBar):
         self.new_button = Gtk.MenuItem.new_with_label('New')
         self.open_button = Gtk.MenuItem.new_with_label('Open')
         
+        self.open_stock_button = Gtk.MenuItem.new_with_label('Import Stock')
+
         view_button = Gtk.MenuItem.new_with_label('View')
         
         self.view_menu = Gtk.Menu()
@@ -62,6 +63,7 @@ class controlBar(Gtk.HeaderBar):
 
         main_menu.append(self.new_button)
         main_menu.append(self.open_button)
+        main_menu.append(self.open_stock_button) 
         main_menu.append(Gtk.SeparatorMenuItem())
         main_menu.append(view_button)
         main_menu.append(Gtk.SeparatorMenuItem())

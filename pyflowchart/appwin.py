@@ -1,4 +1,4 @@
-import gi, json, os
+import gi, json, os, requests
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
@@ -127,6 +127,35 @@ class AppWindow(Gtk.Window):
         if new_course:
             return new_course
 
+    def create_import_from_server_dialog(self, chart_list):
+        import_chart = None 
+
+        import_dialog = Gtk.Dialog("Import from server", self, 0)
+        box = import_dialog.get_content_area()
+
+        content_box = Gtk.Box()
+        box.add(content_box)
+
+        chart_selector = Gtk.ComboBoxText()
+        for chart in sorted(chart_list):
+            chart_selector.append_text(chart)
+    
+        content_box.pack_start(Gtk.Label("Choose a chart:"), True, True, 0)
+        content_box.pack_start(chart_selector, True, True, 0)
+        import_dialog.add_button('Import', Gtk.ResponseType.OK)
+
+        content_box.show_all()
+
+        response = import_dialog.run()
+
+        if response == Gtk.ResponseType.OK:
+            import_chart = chart_selector.get_active_text()
+
+        import_dialog.destroy()
+
+        if import_chart:
+            return import_chart 
+
     def parse_config(self):
         """Open the config file and read the data."""
         with open(self.config_file, 'r') as jsonfile:
@@ -210,6 +239,17 @@ class AppWindow(Gtk.Window):
                 open_dialog.destroy()
                 return 0
 
+    def import_stock(self, widget, url):
+        """Runs an import dialog, then instructs the CourseManager
+        to load the chosen chart. 
+
+        Returns:
+            1 if successful, 0 otherwise.
+        """
+        chart_list = requests.get(url).json()['charts']
+        chart_to_load = self.create_import_from_server_dialog(chart_list)
+        chart = requests.get(url + "/{}".format(chart_to_load)).json() 
+        self.course_manager.load_json(chart)
 
     def save_entry(self, window):
         """Creates a save dialog (or save as if no filename)."""

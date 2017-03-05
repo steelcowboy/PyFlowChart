@@ -295,15 +295,19 @@ class FlowChartWindow(AppWindow):
         if self.mode == 'builder':
             self.builder_grid.course_id = new_id
             entry = self.builder_grid.get_entry_values()
+            if not entry:
+                return False
+
             entry['course_id'] = new_id
 
             self.builder_grid.clean_form()
         elif self.mode == 'viewer':
             self.modify_grid.course_id = new_id
             entry = self.create_add_edit_dialog()
-            entry['course_id'] = new_id
             if not entry:
                 return False
+
+            entry['course_id'] = new_id
         else:
             raise Exception('Unknown course mode: {}'.format(self.mode))
 

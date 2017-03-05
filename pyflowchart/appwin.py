@@ -124,6 +124,11 @@ class AppWindow(Gtk.Window):
                 new_course = self.modify_grid.get_entry_values()
                 if new_course:
                     break
+            elif response == Gtk.ResponseType.DELETE_EVENT:
+                # Cleanup, cleanup, everybody everywhere
+                self.modify_grid = ModifyGrid()
+                modify_dialog.destroy()
+                return None
             
             no_type_dialog = Gtk.MessageDialog(self, 0, 
                                 Gtk.MessageType.INFO, 

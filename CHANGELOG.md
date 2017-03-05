@@ -1,3 +1,6 @@
+# 0.9.3.1 (03-05-2017)
+- Fix bug where you cannot close add/edit dialog
+
 # 0.9.3 (02-25-2017)
 - Allow user to set how many years needed in preferences
 - Reload interface when preferences changed
